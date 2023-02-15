@@ -1,125 +1,119 @@
+package nozama;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
-public class Profile
-{
+class Profile {
     Scanner input = new Scanner(System.in);
 
-    ArrayList<Product> myProduct = new ArrayList<Product>();
-    ArrayList<Product> myCart = new ArrayList<Product>();
+    ArrayList<Message> messageBox = new ArrayList<Message>();
+    ArrayList<User> prefer = new ArrayList<User>();
 
-    private String user = "[edit_user]",
-            age = "[edit_age]",
-            gender = "[edit_gender]",
-            cpf = "[edit_cpf]",
-            adress = "[edit_adress]",
-            email = "[edit_email]",
-            password = "[edit_password]";
-    boolean aux = false;
+    public User user;
+    
+    public void menuUser(ArrayList<Product> product){
+        boolean aux = true, aux2 = true;
+        int userChoise, userChoiseCompra, userChoiseCart;
+        String menuUser = "1 - Ver feed.\n"+
+                          "2 - Postar produto.\n"+
+                          "3 - Ver meu carrinho.\n"+
+                          "4 - Ver meu produtos.\n"+
+                          "5 - Ver mensagens.\n"+
+                          "6 - Editar perfil.\n"+
+                          "7 - Sair.\n=>";
+        String menuCompra = "\nGostaria de adicionar ao carrinho? \n[1] - Sim\n[2] - Não\n=>";
+        String menuCart = "\nAções: \n[1] - Comprar\n[2] - Remover\n[3]Voltar\n=>";
+        while(aux){
+            
+            System.out.printf(this.user.toString()+"\n\n"+menuUser);
+            userChoise = input.nextInt();
 
+            switch(userChoise){
+                case 1: if(!product.isEmpty()){ 
+                            Iterator<Product> itrProduct = product.iterator();
+                            while(itrProduct.hasNext()){
+                                Product e = itrProduct.next();
+                                System.out.println("\n"+e.toString()+menuCompra);
+                                userChoiseCompra =  input.nextInt();
 
-    public void setProfile()
-    {
-        setUser();
-        setAge();
-        setGender();
-        setCpf();
-        setAdress();
-        setPassword();
-    }
-                                                                                                 
-    public String my_profile()
-    {
-        return "Olar, "+this.user+", este é seu perfil:\n"+"Genero: "+this.gender+", Idade: "+this.age+", E-mail: "+email;
-    }
+                                switch(userChoiseCompra){
+                                    case 1:System.out.println(this.user.cpf);
+                                        System.out.println(e.getName()); 
+                                        System.out.println("Produto adicionadfo no carrinha!\n");
+                                        this.user.setMyCart(e);
+                                        break;
+                        
+                                    case 2: break;
+                                    }
+                            }
+                        } else System.out.printf("\nNão existe produto nos feeds\n\n");
+                    break;
 
-    public void setUser()
-    {
-        System.out.println("Digite seu username:\n=>");
-        user = input.nextLine();
-    }
+                case 2: Product novoProduto = new Product(this);
+                        this.user.setMyProduct(novoProduto);
+                        product.add(novoProduto);
 
-    public String getUser() {return this.user;}
-
-    public void setAge()
-    {
-        System.out.println("Digite sua idade:\n=>");
-        age = input.nextLine();
-    }
-
-    public String getAge() {return this.age;}
-
-    public void setGender()
-    {
-        System.out.println("Digite seu gênero:\n=>");
-        gender = input.nextLine();
-    }
-
-    public String getGender() {return this.gender;}
-
-    public void setCpf()
-    {
-        System.out.println("Digite seu CPF:\n=>");
-        cpf = input.nextLine();
-    }
-
-    public String getCpf() {return this.cpf;}
-
-    public void setAdress()
-    {
-        System.out.println("Digite seu endereco:\n=>");
-        adress = input.nextLine();
-    }
-
-    public String getAdress() {return this.adress;}
-
-    public void setEmail()
-    {
-        System.out.println("Digite seu e-mail:\n=>");
-        email = input.nextLine();
-    }
-
-    public String getEmail() {return this.email;}
-
-    private void setPassword()
-    {
-        System.out.println("Digite sua senha:\n=>");
-        password = input.nextLine();
-    }
-
-    public String getPassword() {return this.password;}
-
-
-
-    public Product setProduto(ArrayList<Product> aux) {
-        Product e = new Product(aux);
-        myProduct.add(e);
-        return e;
-    }
-
-    public ArrayList<Product> getMyproduto() {return this.myProduct;}
-
-    public void setCart(Product e) {this.myCart.add(e);}
-    public ArrayList<Product> getCart() {return this.myCart;}
-
-
-    public void setRegister(ArrayList<Profile> accounts, Profile new_register)
-    {
-        setEmail();
-        if(!accounts.isEmpty())
-        {
-            for(int i = 0; i < accounts.size(); i++)
-            {
-                if(email.intern() == (accounts.get(i).getEmail()).intern())
-                {
-                    System.out.println("Esse usuário já estar cadastrado.");
+                        System.out.print("\nProduto adicionado com sucesso:\n"+novoProduto.toString()+"\n");
+                        break;
+                case 3: if(!this.user.getMycart().isEmpty()){
+                            Iterator<Product> itrPro = this.user.getMycart().iterator();
+                            while(itrPro.hasNext()){
+                                Product i = itrPro.next();
+                                System.out.println(i.toString()+menuCart);
+                                userChoiseCart = input.nextInt();
+                                switch(userChoiseCart){
+                                    case 1: i.compra();
+                                            i.setRate();
+                                            Message novaMensagem = new Message(this);
+                                            novaMensagem.sendMessageSend("Item comprado!!!\n\n"+this.user.toString());
+                                            i.owner.messageBox.add(novaMensagem);
+                                            if(i.qtdProduto == 0){
+                                                product.remove(i);
+                                            }
+                                            this.user.favoritos.add(i.getCategory());
+                                            itrPro.remove();
+                                            break;
+                                    case 2: itrPro.remove();
+                                    case 3:break;
+                                    }  
+                            }
+                        }else{
+                            System.out.println("Carrinho Vazio!\n");
+                        }
+            
+                break;
+                case 4: if(this.user.getMyProduct().isEmpty()){ System.out.println("Sem produtos!\n");}
+                else {
+                    Iterator<Product> itrProd = this.user.getMyProduct().iterator(); 
+                    while(itrProd.hasNext()){
+                        Product i = itrProd.next();
+                        System.out.println(i.toString()+"\nEditar produto?\n[1]sim\n[2]não\n=>");
+                        userChoiseCart = input.nextInt();
+                        if(userChoiseCart == 1){i.editProduct();}
+                    } 
+                    }
+                    break;
+                case 5:
+                    if(this.messageBox.isEmpty()){
+                        System.out.println("\nSem Mensagens!\n");
+                    }else{
+                        for(Message i : this.messageBox){
+                            System.out.println(i.toString()+"\nOque quer fazer?\n[1]Responder\n[2]Deletar mensagem\n[3] - Voltar\n");
+                            userChoiseCart = input.nextInt();
+                            if(userChoiseCart == 1){
+                                Message novaMensagem = new Message(this);
+                                novaMensagem.setMessageSend();
+                                i.origem.messageBox.add(novaMensagem);
+                            }else if(userChoiseCart == 2){this.messageBox.remove(i);}
+                        }
+                    }
+                    break;
+                case 6: this.user.editUser();
+                break;
+                case 7: aux = false; break;
+                default: break;
                 }
             }
         }
-        this.setProfile();
-        accounts.add(new_register);
-        System.out.println("Parabéns!!, agora você faz parte do nozamA.");
-
-    }
-
 }

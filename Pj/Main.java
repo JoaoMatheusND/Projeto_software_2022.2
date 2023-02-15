@@ -1,50 +1,43 @@
+package nozama;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main
-{
-    public static void main(String[] args)
-    {
+public class Main {
+    public static void main(String[] args) throws Exception {
+
         Scanner input = new Scanner(System.in);
+        Login login = new Login();
+
         ArrayList<Profile> accounts = new ArrayList<Profile>();
+        ArrayList<UserAdmin> admins = new ArrayList<UserAdmin>();
         ArrayList<Product> feed = new ArrayList<Product>();
 
         boolean active = true;
-        int choise;
+        int choise, index;
 
+        UserAdmin novoAdmin = new UserAdmin(feed, accounts, "admin", "admin", "admin"); 
+        admins.add(novoAdmin);
 
         while(active)
         {
-            System.out.println("Bem-vindo ao app");
-            System.out.println("1 ==> Login\n2 ==> cadastro\n3 ==> Sair");
+            System.out.println("\nBem-vindo ao nozamA!");
+            System.out.println("1 - Login;\n2 - Cadastro;\n3 - Administrar;\n4 - Sair.");            
         
             choise = input.nextInt();
-            input.nextLine();
 
             switch(choise)
             {
-                case 1:
-                        Login login = new Login();
-                        int index = login.checkLogin(accounts);
-                        
-                        if(index > -1)
-                        {
-                            login.Menu(accounts, feed, index);
-                        }
+                case 1: index = login.checkLogin(accounts);
+                        if(index > -1) accounts.get(index).menuUser(feed);
                         break;
-                case 2:
-                        Profile registro = new Profile();
-                        registro.setRegister(accounts, registro);
+                case 2: login.setRegister(accounts); break;
+                case 3: index = login.checkLoginAdmin(admins);
+                        if(index > -1) admins.get(index).menuUserAdmin(admins, feed);
                         break;
-                default:
-                active = false;
+                case 4: active = false; break;
+                default: System.out.println("Insira uma opção válida.\n"); break;
             }
-        }
-
-        System.out.printf("\n Usuarios cadastrados [%s]", accounts.size());
-        for(int i=0; i< accounts.size(); i++)
-        {
-            System.out.println(accounts.get(i).getEmail());
         }
         input.close();
     }

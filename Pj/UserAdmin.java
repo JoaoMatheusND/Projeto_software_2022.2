@@ -78,7 +78,7 @@ class UserAdmin {
                                "4 - Adicionar novo ADMIN.\n"+
                                "5 - Dar bônus.\n"+
                                "6 - Sair.\n=>";
-        String adminUserMsm = "\nOque gostari de fazer?\n1 - Mandar aviso.\n2 - deletar.\n3 - Continuar\n=>";
+        String adminUserMsm = "\nO que gostaria de fazer?\n1 - Mandar aviso;\n2 - Deletar;\n3 - Continuar.\n=>";
         String op = "\nOpção inválida.\n";
 
         while(aux){

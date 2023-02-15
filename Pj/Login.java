@@ -10,7 +10,7 @@ class Login {
     public int checkLogin(ArrayList<Profile> accounts){
 
         if(accounts.isEmpty()){
-            System.out.printf("Não existe contas registradas ainda, gostaria de registar?\n1 - SIM\n2 - NÃO\n=>");
+            System.out.printf("Não existem contas registradas ainda. Gostaria de registar?\n1 - SIM\n2 - NÃO\n=>");
             int choises = input.nextInt();
 
             if(choises != 1) {return -1;}
@@ -22,7 +22,7 @@ class Login {
 
         String email, password;
 
-        System.out.printf("Digite ser E-mail:\n=>");
+        System.out.printf("Digite seu E-mail:\n=>");
         email = input.nextLine(); System.out.println();
 
         System.out.printf("Digite sua senha:\n=>");
@@ -41,7 +41,7 @@ class Login {
 
         String email, password;
 
-        System.out.printf("Digite ser E-mail:\n=>");
+        System.out.printf("Digite seu E-mail:\n=>");
         email = input.nextLine(); System.out.println();
 
         System.out.printf("Digite sua senha:\n=>");

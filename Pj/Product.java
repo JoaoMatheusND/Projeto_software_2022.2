@@ -27,6 +27,7 @@ class Product {
         System.out.printf("\nQual a quantidade desse produto?\n=>");
         this.qtdProduto = input.nextInt();
         this.owner = e;
+        this.setCategory();
 
        
         System.out.println(qtdProduto);
@@ -126,10 +127,11 @@ class Product {
     }
 
     public String getRate(){
-        int size = this.rate.size()+1, star = 0;
+        int size = this.rate.size(), star = 0;
 
         for(Integer i : this.rate) star += i;
 
+        if(size == 0) { return "Não há avaliações ainda.\n"; }
         star /= size;
 
         return ""+star;

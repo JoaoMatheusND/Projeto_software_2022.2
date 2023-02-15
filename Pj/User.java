@@ -12,7 +12,7 @@ class User {
     public ArrayList<Product> myCart    = new ArrayList<Product>();
     public ArrayList<String> favoritos = new ArrayList<String>();
 
-    //Atributos básicos 
+    //Atributos básicos
     public String  user     = "[edit_user]",
                    age      = "[edit_age]",
                    gender   = "[edit_gender]",
@@ -22,13 +22,14 @@ class User {
                    password = "[edit_password]",
                    favorito = "[edit_categoria]";
     boolean aux = false;  
-
+  
     //Método construtor para criar usuários
     public User(){
         this.setUser(); System.out.println();
         this.setEmail(); System.out.println();
         this.setCpf(); System.out.println();
         this.setAdress(); System.out.println();
+      
     }
 
     //Método para editar alguns atributos dessa classe 
@@ -148,10 +149,10 @@ class User {
 
             if(e.equals("Eletronicos")) eletronico++;
             if(e.equals("Roupas")) roupas++;
-            if(e.equals("outros")) outros++;
+            if(e.equals("Outros")) outros++;
         }
 
-        if(eletronico > roupas && eletronico > outros) this.favorito = "Eletronicos";
+        if(eletronico > roupas && eletronico > outros) this.favorito = "Eletrônicos";
         if(roupas > eletronico && roupas > outros) this.favorito = "Roupas";
         if(outros > roupas && outros > eletronico) this.favorito = "Outros";
 

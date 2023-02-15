@@ -15,14 +15,14 @@ class Profile {
     public void menuUser(ArrayList<Product> product){
         boolean aux = true, aux2 = true;
         int userChoise, userChoiseCompra, userChoiseCart;
-        String menuUser = "1 - Ver feed.\n"+
-                          "2 - Postar produto.\n"+
-                          "3 - Ver meu carrinho.\n"+
-                          "4 - Ver meu produtos.\n"+
-                          "5 - Ver mensagens.\n"+
-                          "6 - Editar perfil.\n"+
+        String menuUser = "1 - Ver feed;\n"+
+                          "2 - Postar produto;\n"+
+                          "3 - Ver meu carrinho;\n"+
+                          "4 - Ver meu produtos;\n"+
+                          "5 - Ver mensagens;\n"+
+                          "6 - Editar perfil;\n"+
                           "7 - Sair.\n=>";
-        String menuCompra = "\nGostaria de adicionar ao carrinho? \n[1] - Sim\n[2] - Não\n=>";
+        String menuCompra = "\nGostaria de adicionar o produto ao carrinho? \n[1] - Sim\n[2] - Não\n=>";
         String menuCart = "\nAções: \n[1] - Comprar\n[2] - Remover\n[3]Voltar\n=>";
         while(aux){
             
@@ -40,18 +40,19 @@ class Profile {
                                 switch(userChoiseCompra){
                                     case 1:System.out.println(this.user.cpf);
                                         System.out.println(e.getName()); 
-                                        System.out.println("Produto adicionadfo no carrinha!\n");
+                                        System.out.println("Produto adicionado no carrinho!\n");
                                         this.user.setMyCart(e);
                                         break;
                         
                                     case 2: break;
                                     }
                             }
-                        } else System.out.printf("\nNão existe produto nos feeds\n\n");
+                        } else System.out.printf("\nNão existem produto no feed.\n\n");
                     break;
 
                 case 2: Product novoProduto = new Product(this);
                         this.user.setMyProduct(novoProduto);
+                      
                         product.add(novoProduto);
 
                         System.out.print("\nProduto adicionado com sucesso:\n"+novoProduto.toString()+"\n");
@@ -65,13 +66,15 @@ class Profile {
                                 switch(userChoiseCart){
                                     case 1: i.compra();
                                             i.setRate();
+
                                             Message novaMensagem = new Message(this);
                                             novaMensagem.sendMessageSend("Item comprado!!!\n\n"+this.user.toString());
                                             i.owner.messageBox.add(novaMensagem);
                                             if(i.qtdProduto == 0){
                                                 product.remove(i);
-                                            }
+                                            }                                          
                                             this.user.favoritos.add(i.getCategory());
+                                            this.user.favorito = this.user.getFavorito();
                                             itrPro.remove();
                                             break;
                                     case 2: itrPro.remove();
@@ -88,7 +91,7 @@ class Profile {
                     Iterator<Product> itrProd = this.user.getMyProduct().iterator(); 
                     while(itrProd.hasNext()){
                         Product i = itrProd.next();
-                        System.out.println(i.toString()+"\nEditar produto?\n[1]sim\n[2]não\n=>");
+                        System.out.println(i.toString()+"\nEditar produto?\n[1] Sim\n[2] Não\n=>");
                         userChoiseCart = input.nextInt();
                         if(userChoiseCart == 1){i.editProduct();}
                     } 
@@ -99,7 +102,7 @@ class Profile {
                         System.out.println("\nSem Mensagens!\n");
                     }else{
                         for(Message i : this.messageBox){
-                            System.out.println(i.toString()+"\nOque quer fazer?\n[1]Responder\n[2]Deletar mensagem\n[3] - Voltar\n");
+                            System.out.println(i.toString()+"\nO que quer fazer?\n[1]Responder\n[2]Deletar mensagem\n[3] - Voltar\n");
                             userChoiseCart = input.nextInt();
                             if(userChoiseCart == 1){
                                 Message novaMensagem = new Message(this);
@@ -115,5 +118,9 @@ class Profile {
                 default: break;
                 }
             }
+        }
+        @Override
+        public String toString() {
+            return this.user.toString();
         }
 }

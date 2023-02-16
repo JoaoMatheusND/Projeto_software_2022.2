@@ -1,5 +1,3 @@
-package nozama;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -30,6 +28,7 @@ class UserAdmin {
         setPassword();
     }
 
+    //método construtor com assinatura para cadastrar admin com o dados já recebidos
     public UserAdmin(ArrayList<Product> product, ArrayList<Profile> users, String user, String email, String password){
         this.products = product;
         this.users = users;
@@ -40,6 +39,8 @@ class UserAdmin {
 
     //Método para editar alguns atributos dessa classe 
     public void editUserAdmin(){
+
+        // Atributos locais para manipilação de edição 
         int userChoise;
         boolean aux = true;
         String userAux;
@@ -48,20 +49,28 @@ class UserAdmin {
                           "2 - Troca de e-mail;\n"+
                           "3 - Troca de senha;\n"+
                           "4 - Sair.\n";
+
         do{
             this.toString();
             System.out.println(menuEdit);
             userChoise = input.nextInt();
 
             switch(userChoise){
+                // case 1: edita o nome do usuário admin.
                 case 1: setUser();  break;
+
+                // case 2: edita o email do admin.
                 case 2: setEmail(); break;
+
+                //case 3: troca a senha, baseado na senha anterior.
                 case 3: System.out.printf("Insira sua senha atual:\n=>");
                         userAux = input.nextLine();
 
                         if(userAux.equals(getPassword())) setPassword();
                         else System.out.println("Senha incorreta. Não foi possivel efetuar a troca de senha.\n");
                         break;
+                
+                // case 4: finaliza a edição de usuário admin
                 case 4: aux = false; break;
                 default: System.out.println("Insira um valor válido.\n"); break;
             }
@@ -70,6 +79,8 @@ class UserAdmin {
     
     //Método para administrar como um usuário administrador
     public void menuUserAdmin(ArrayList<UserAdmin> usersm, ArrayList<Product> products){
+
+        // Atributos locais
         boolean aux = true;
         int adminChoise;
         String menuUserAdmin = "1 - Ver Todos os usuários.\n"+
@@ -86,13 +97,13 @@ class UserAdmin {
             adminChoise = input.nextInt();
 
             switch(adminChoise){
+                // case 1: interage com todos os usuários do sistema (podendo excluir cada um individualmente).
                 case 1: if(!users.isEmpty()){
                             Iterator<Profile> itrProfile = users.iterator();
                             while(itrProfile.hasNext()){
                                 Profile auxItrProfile = itrProfile.next();
                                 System.out.println(auxItrProfile.toString()+"\n"+adminUserMsm);
                                 int choise = input.nextInt();
-                                input.next();
 
                                 switch(choise){
                                     case 1: Message message = new Message(""+this.getUser());
@@ -100,7 +111,7 @@ class UserAdmin {
 
                                             auxItrProfile.messageBox.add(message);
                                             break;
-                                    case 2: users.remove(auxItrProfile);
+                                    case 2: itrProfile.remove();
                                             for (Product pro : auxItrProfile.user.myProduct) products.remove(pro);  
                                             auxItrProfile.user.getMyProduct().clear();                                       
                                             auxItrProfile.user.getMycart().clear();
@@ -114,13 +125,13 @@ class UserAdmin {
                         } else System.out.printf("\nNão exitem contas registradas ainda.\n");
                         break;
 
+                // case 2: interage com todos os produtos, podedendo excluit individualmente.
                 case 2: if(!products.isEmpty()){
                             Iterator<Product> itrProduct = products.iterator();
                             while(itrProduct.hasNext()){
                                 Product auxItrProduct = itrProduct.next();
                                 System.out.print("\n"+auxItrProduct.toString()+"\n"+adminUserMsm);
                                 int choise = input.nextInt();
-                                input.next();
 
                                 switch(choise){
                                     case 1: Message message = new Message(this.getUser());
@@ -128,7 +139,7 @@ class UserAdmin {
 
                                             auxItrProduct.owner.messageBox.add(message);
                                             break;
-                                    case 2: products.remove(auxItrProduct);
+                                    case 2: itrProduct.remove();;
                                             auxItrProduct.owner.user.getMyProduct().remove(auxItrProduct);
                                             break;
                                     case 3: break;
@@ -137,12 +148,17 @@ class UserAdmin {
                             }
                         }else System.out.printf("\nNão exitem produtos registrados registradas ainda.\n");
                         break;
+
+                // case 3: edita dados do usuário administrador.
                 case 3: this.editUserAdmin();
                         break;
+
+                // case 4: cria a conta de um novo administrador.
                 case 4: UserAdmin novoAdmin = new UserAdmin(products, users);
                         usersm.add(novoAdmin);
-
                         break;
+
+                // case 5: Working In Progress.
                 case 5: System.out.printf("\nWIP\n"); break;
                 case 6: aux = false; break;
                 default: System.out.print(op) ;      

@@ -6,6 +6,8 @@ Repositório dedicado as aplicabilidades dadas na matéria de projeto de softwar
 - **Pedro de Carvalho Cedrim**     (pcc@ic.ufal.br);
 - **Tiago Lôbo Pereira Barros**    (tlpb@ic.ufal.br).
 
+>Primeiro projeot usando somento java se encontra na Branch "java_project".
+
 ## Projeto
 
 ![image](https://user-images.githubusercontent.com/70983676/216218817-bba65b99-6f6e-4ab9-9e24-1f92d57f072b.png)

@@ -1,21 +1,22 @@
-package nozama;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*      Classe dedicada a administração de login(usuário e admin) */
 class Login {
 
     Scanner input = new Scanner(System.in);
 
+    //Checklogin de usuário comum retornanod sua posição no array.
     public int checkLogin(ArrayList<Profile> accounts){
 
+        //  Analisa se existe conta de usuário simples registrada
         if(accounts.isEmpty()){
             System.out.printf("Não existem contas registradas ainda. Gostaria de registar?\n1 - SIM\n2 - NÃO\n=>");
             int choises = input.nextInt();
 
             if(choises != 1) {return -1;}
             else{
-                this.setRegister(accounts);
+                this.setRegister(accounts); // Registra um novo usuário.
                 return -1;
             }
         }
@@ -37,6 +38,7 @@ class Login {
         return -1;
     } 
 
+    //Checklogin de usuário admin retorna sua posição no array.
     public int checkLoginAdmin(ArrayList<UserAdmin> userAdmin){
 
         String email, password;
@@ -56,6 +58,7 @@ class Login {
     } 
     
 
+    //Inicia um novo registro e adciona ao sistema
     public boolean setRegister(ArrayList<Profile> accounts){
         User novoUsuario = new User();
 

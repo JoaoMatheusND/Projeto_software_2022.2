@@ -1,13 +1,13 @@
-package nozama;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 class User {
+
+    //input: entrada de dadps do usuário.
     Scanner input = new Scanner(System.in);
 
-    //Arrays dos produtos que eu compro e vendo
+    //Arrays dos produtos que eu compro e vendo.
     public ArrayList<Product> myProduct = new ArrayList<Product>();
     public ArrayList<Product> myCart    = new ArrayList<Product>();
     public ArrayList<String> favoritos = new ArrayList<String>();
@@ -23,48 +23,61 @@ class User {
                    favorito = "[edit_categoria]";
     boolean aux = false;  
   
-    //Método construtor para criar usuários
+    //Método construtor para criar usuários, inserindo os dados iniciais.
     public User(){
         this.setUser(); System.out.println();
         this.setEmail(); System.out.println();
         this.setCpf(); System.out.println();
         this.setAdress(); System.out.println();
+        this.setGender(); System.out.println();
+        this.setAge(); System.out.println();
       
     }
 
-    //Método para editar alguns atributos dessa classe 
+    //Método para editar alguns atributos dessa classe.
     public void editUser(){
-        int userChoise;
-        boolean aux = true;
+
+        //Atributos locais para o controle de edição.
+        int userChoise;   
+        boolean aux = true; 
         String userAux;
+
         String menuEdit = "Qual característica gostaria de editar?\n"+
                           "1 - Nome do usuário;\n"+
                           "2 - Troca de endereço;\n"+
                           "3 - Troca de E-mail;\n"+
-                          "4 - Troca de senha;"+
+                          "4 - Troca de senha;\n"+
                           "5 - Sair.\n=>";
-        do {
+        while(aux){
             this.toString();
-            System.out.println(menuEdit);
+            System.out.printf(menuEdit);
             userChoise = input.nextInt();
-            input.next();
+            
 
             switch(userChoise){
+                // case 1: edita o nome de usuário.
                 case 1: setUser();   break;
+
+                // case 2: edita o endereço.
                 case 2: setAdress(); break;
+
+                // case 3: edita o email.
                 case 3: setEmail();  break;
+
+                // case 4: edita a senha, inserindo a senha anterior.
                 case 4: System.out.printf("Insira sua senha atual:\n=>");
                         userAux = input.nextLine();
 
                         if(userAux.equals(getPassword())) setPassword();
                         else System.out.println("Senha incorreta. Não foi possível efetuar a troca de senha.\n");
                         break;
+                // case 5: finaliza a edição.
                 case 5: aux = false; break;
                 default: System.out.println("Insira um valor válido.\n"); break;
 
             }
 
-        }while(aux);
+        }
     }
 
     //Override para substituir o método toString() da class object para um padrão mais coerente a essa classe
@@ -140,6 +153,7 @@ class User {
         this.myCart.add(product);
     }
 
+    //Calcula a moda das categorias dos intem comprados por (this) 
     public String getFavorito(){
         int eletronico=0, roupas=0, outros=0;
         Iterator<String> itr = favoritos.iterator();
@@ -147,7 +161,7 @@ class User {
         while(itr.hasNext()){
             String e = itr.next();
 
-            if(e.equals("Eletronicos")) eletronico++;
+            if(e.equals("Eletrônicos")) eletronico++;
             if(e.equals("Roupas")) roupas++;
             if(e.equals("Outros")) outros++;
         }
@@ -158,8 +172,6 @@ class User {
 
         return this.favorito;
     }
-
-
 
     public ArrayList<Product> getMycart(){return this.myCart;}
 

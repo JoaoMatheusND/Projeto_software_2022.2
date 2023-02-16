@@ -1,5 +1,3 @@
-package nozama;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,7 +17,7 @@ class Product {
                    categoria = "[Edit_category]";
     public int qtdProduto;
 
-    //Método construtor para criar produtos
+    //Método construtor para criar produtos, obrigando a inserir os dados relevantes.
     public Product(Profile e){
         this.setName();       System.out.println();
         this.setDescripton(); System.out.println();
@@ -33,7 +31,7 @@ class Product {
         System.out.println(qtdProduto);
     }
 
-    //Método para editar alguns atributos dessa classe 
+    //Método para editar alguns atributos dessa classe, individualmente.
     public void editProduct(){
         int userChoise;
         boolean aux = true;
@@ -42,19 +40,35 @@ class Product {
                           "2 - Descrição do produto;\n"+
                           "3 - Preço do produto;\n"+
                           "4 - Sair.\n";
-        do {
+        while(aux){            
             System.out.println(this.toString());
             System.out.println(menuEdit);
             userChoise = input.nextInt();
-
+            
             switch(userChoise){
-                case 1:  setName();       break;
-                case 2:  setDescripton(); break;  
-                case 3:  setPrice();      break;
-                case 4:  aux = false;     break;
+                // case 1: edita o nome do produto.
+                case 1:  System.out.printf("Digite um novo nome:\n=>");   
+                         input.nextLine();
+                         this.name = input.nextLine();
+                         break;
+
+                // case 2: edita a descrição do produto.
+                case 2:  System.out.printf("Digite uma nova descrição:\n=>");   
+                         input.nextLine();
+                         this.description = input.nextLine(); 
+                         break;  
+
+                // case 3: edita o preço do produto
+                case 3:  System.out.printf("Digite um novo preço:\n=>");   
+                          input.nextLine();
+                          this.price = input.nextLine();     
+                          break;
+                // case 4: encerra a edição do produto
+                case 4:   aux = false;     
+                          break;
                 default: System.out.println("Insira um valor válido.\n"); break;
             }
-        } while(aux);
+        }
 
 
     }
@@ -67,7 +81,7 @@ class Product {
                "Categoria: "+getCategory()+";\n"+
                "Descrição do produto: "+getDescription()+";\n"+
                "Preço do produto: "+getPrice()+";\n"+
-               "Quantidade:"+qtdProduto+"\n"+
+               "Quantidade:"+this.qtdProduto+"\n"+
                "Avaliação: "+getRate();
     }
 
@@ -84,15 +98,14 @@ class Product {
 
     public void setDescripton(){
         System.out.printf("Descreva uma descrição do produto:\n=>");
-        //input.next();
-        
+
         this.description = input.nextLine();
     }
 
     public String getDescription() {return this.description;}
 
     public void setPrice(){
-        System.out.printf("Qual é o preço do produto:=>");
+        System.out.printf("Qual é o preço do produto:\n=>");
 
         this.price = input.nextLine();
     }
@@ -100,14 +113,14 @@ class Product {
     public String getPrice() {return this.price;}
 
     public void setCategory(){
-        System.out.printf("\nQual a sua categoria?\n1 - Eletronicos\n2 - Roupas\n3 - outros\n=>");
+        System.out.printf("\nQual a sua categoria?\n1 - Eletrônicos\n2 - Roupas\n3 - outros\n=>");
         int choise = input.nextInt();
 
         boolean aux2 = true;
 
         while(aux2){
             switch(choise){
-                case 1: this.categoria = "Eletronicos"; aux2 = false; break;
+                case 1: this.categoria = "Eletrônicos"; aux2 = false; break;
                 case 2: this.categoria = "Roupas"; aux2 = false;      break;
                 case 3: this.categoria = "Outros"; aux2 = false;      break;
                 default: System.out.printf("\nOpção inválida.\n");    break;
@@ -117,6 +130,7 @@ class Product {
 
     public String getCategory() {return this.categoria;}
 
+    // Insere uma nova avaliação no produto.
     public void setRate(){
         int aval;
 
@@ -126,6 +140,7 @@ class Product {
         this.rate.add(aval);
     }
 
+    // Calcula a média das avaliações.
     public String getRate(){
         int size = this.rate.size(), star = 0;
 
@@ -137,6 +152,7 @@ class Product {
         return ""+star;
     }
 
+    // Reduz o número do produto(this) disponivel no feed
     public void compra(){
         this.qtdProduto--;
     }

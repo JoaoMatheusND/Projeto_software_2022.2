@@ -6,7 +6,7 @@ Repositório dedicado as aplicabilidades dadas na matéria de projeto de softwar
 - **Pedro de Carvalho Cedrim**     (pcc@ic.ufal.br);
 - **Tiago Lôbo Pereira Barros**    (tlpb@ic.ufal.br).
 
->Primeiro projeot usando somento java se encontra na Branch "java_project".
+>Primeiro projeto usando somento java se encontra na Branch "java_project" na pasta "pj".
 
 ## Projeto
 

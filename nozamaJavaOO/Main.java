@@ -30,7 +30,7 @@ public class Main {
             {
                 //  case 1: verifica um possivel login e retorna um index do usuário no accounts.
                 case 1: index = login.checkLogin();
-                        if(index > -1) bancoDados.getUsers().get(index).menuUser();
+                        if(index > -1) bancoDados.getUsers().get(index).menuProfile();
                         break;
                 //  case 2: Registra um novo usuário no sistema.
                 case 2: login.setRegister(); break;

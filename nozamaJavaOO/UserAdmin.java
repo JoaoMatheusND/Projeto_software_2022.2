@@ -1,0 +1,172 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
+class UserAdmin extends User{
+    
+    Bd bancoDados = Bd.getInstance();
+
+    Scanner input = new Scanner(System.in);
+
+    Iterator<Product> itrProducts;
+    Iterator<Profile> itrProfiles;
+    Iterator<Message> itrMessages;
+
+
+    //Método construtor para iniciar e pegar os produtor e usuários já criados
+    public UserAdmin(){
+        setUser();
+        setCpf();
+        setEmail();
+        setPassword();
+    }
+
+    public UserAdmin(String user, String cpf, String email, String password){
+        this.user = user;
+        this.cpf = cpf;
+        this.email = email;
+        this.password = emial;
+    }
+
+    //Método para editar alguns atributos dessa classe 
+    @override
+    public void editUser(){
+
+        // Atributos locais para manipilação de edição 
+        int userChoise;
+        boolean aux = true;
+        String userAux;
+        String menuEdit = "Qual caracteristiac gostaria de editar?\n"+
+                          "1 - Nome de usuário;\n"+
+                          "2 - Troca de e-mail;\n"+
+                          "3 - Troca de senha;\n"+
+                          "4 - Sair.\n";
+
+        do{
+            this.toString();
+            System.out.println(menuEdit);
+            userChoise = input.nextInt();
+
+            switch(userChoise){
+                // case 1: edita o nome do usuário admin.
+                case 1: setUser();  break;
+
+                // case 2: edita o email do admin.
+                case 2: setEmail(); break;
+
+                //case 3: troca a senha, baseado na senha anterior.
+                case 3: System.out.printf("Insira sua senha atual:\n=>");
+                        userAux = input.nextLine();
+
+                        if(userAux.equals(getPassword())) setPassword();
+                        else System.out.println("Senha incorreta. Não foi possivel efetuar a troca de senha.\n");
+                        break;
+                
+                // case 4: finaliza a edição de usuário admin
+                case 4: aux = false; break;
+                default: System.out.println("Insira um valor válido.\n"); break;
+            }
+        }while(aux);
+    }
+    
+    //Método para administrar como um usuário administrador
+    public void menuUserAdmin(){
+
+        // Atributos locais
+        boolean aux = true;
+        int adminChoise;
+        String menuUserAdmin = "1 - Ver Todos os usuários.\n"+
+                               "2 - ver todos os produtos.\n"+
+                               "3 - Editar perfil.\n"+
+                               "4 - Adicionar novo ADMIN.\n"+
+                               "5 - Dar bônus.\n"+
+                               "6 - Sair.\n=>";
+        String adminUserMsm = "\nO que gostaria de fazer?\n1 - Mandar aviso;\n2 - Deletar;\n3 - Continuar.\n=>";
+        String op = "\nOpção inválida.\n";
+
+        while(aux){
+            System.out.printf("\n"+menuUserAdmin);
+            adminChoise = input.nextInt(); input.nextLine();
+
+            switch(adminChoise){
+                // case 1: interage com todos os usuários do sistema (podendo excluir cada um individualmente).
+                case 1: if(!users.isEmpty()){
+                            itrProfiles = bancoDados.getUsers().iterator();
+
+                            while(itrProfile.hasNext()){
+                                Profile p = itrProfile.next();
+                                System.out.println(p.toString()+"\n"+adminUserMsm);
+                                int choise = input.nextInt();
+
+                                switch(choise){
+                                    case 1: Message message = new Message(this);
+                                            message.setMessageAdmin(this.getUser());
+
+                                            p.getMessageBox().add(message);
+                                            break;
+                                    case 2: itrProfile.remove();
+                                            for (Product pro : p.getMyProduct()) bancoDados.getProducts().remove(pro);  
+                                            p.getMyProduct().clear();                                       
+                                            p.getMycart().clear();
+                                            p.getMessageBox().clear();
+                                            break;
+                                    case 3: break;
+                                    default: System.out.print(op); break;
+                                }
+                            }
+                        } else System.out.printf("\nNão exitem contas registradas ainda.\n");
+                        break;
+
+                // case 2: interage com todos os produtos, podedendo excluit individualmente.
+                case 2: if(!products.isEmpty()){
+                            itrProducts = products.iterator();
+                            while(itrProduct.hasNext()){
+
+                                Product auxItrProduct = itrProduct.next();
+                                System.out.print("\n"+auxItrProduct.toString()+"\n"+adminUserMsm);
+                                int choise = input.nextInt();
+
+                                switch(choise){
+                                    case 1: Message message = new Message(this);
+                                            message.setMessageAdmin(this.getUser());
+
+                                            auxItrProduct.owner.getMessageBox().add(message);
+                                            break;
+                                    case 2: itrProduct.remove();;
+                                            auxItrProduct.owner.getMyProduct().remove(auxItrProduct);
+                                            break;
+                                    case 3: break;
+                                    default: System.out.print(op);
+                                }
+                            }
+                        }else System.out.printf("\nNão exitem produtos registrados registradas ainda.\n");
+                        break;
+
+                // case 3: edita dados do usuário administrador.
+                case 3: this.editUser();
+                        break;
+
+                // case 4: cria a conta de um novo administrador.
+                case 4: UserAdmin novoAdmin = new UserAdmin();
+                        usersm.add(novoAdmin);
+                        break;
+
+                // case 5: Working In Progress.
+                case 5: System.out.printf("\nWIP\n"); break;
+                case 6: aux = false; break;
+                default: System.out.print(op) ;      
+
+            }
+        }
+    }
+    
+
+
+    //Override para substituir o método toString() da class object para um padrão mais coerente a essa classe
+    @Override
+    public String toString() {
+        return "\nUser: "+getUser()+"\nCPF: "+getCpf()+"\nE-mail: "+getEmail()+"\n";
+    }
+
+    
+}

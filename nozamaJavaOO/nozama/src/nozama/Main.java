@@ -17,7 +17,7 @@ public class Main {
         int choise, index;
 
         //Admin default do sistema.
-        bancoDados.getUserAdmin().add(new UserAdmin("admin", "123.456.789-10", "admin", "admin"));
+        //bancoDados.getUserAdmin().add(new UserAdmin("admin", "123.456.789-10", "admin", "admin"));
 
         while(active)
         {
@@ -25,6 +25,8 @@ public class Main {
             System.out.printf("1 - Login;\n2 - Cadastro;\n3 - Administrar;\n4 - Sair.\n=>");            
         
             choise = input.nextInt(); // Entrada de dados: inteiro.
+
+            if(input.hasNextLine()) input.nextLine(); // Limpa o buffer do caractyer (\n)
 
             switch(choise)
             {

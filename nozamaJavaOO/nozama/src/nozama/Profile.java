@@ -20,7 +20,7 @@ class Profile extends User{
         boolean aux = true;
         int userChoise, choiseBuy, choiseProduct, choiseMessage, choiseCart;
 
-        String menuUser = "1 - Ver feed;\n"+
+        String menuUser = "\n1 - Ver feed;\n"+
                           "2 - Postar produto;\n"+
                           "3 - Ver meu carrinho;\n"+
                           "4 - Ver meu produtos;\n"+
@@ -51,7 +51,8 @@ class Profile extends User{
         while(aux){
             System.out.printf(super.toString()+menuUser);
             userChoise = input.nextInt();
-            input.nextLine();
+
+            if(input.hasNextLine()) input.nextLine();
 
             switch(userChoise){
 
@@ -62,7 +63,8 @@ class Profile extends User{
 
                                 System.out.printf(e.toString()+menuBuy);
                                 choiseBuy = input.nextInt();
-                                input.nextLine();
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 if(choiseBuy == 1){
                                     this.getMycart().add(e);
@@ -95,7 +97,9 @@ class Profile extends User{
                                 Product p = itrProducts.next();
 
                                 System.out.printf(p.toString()+menuCart);
-                                choiseCart = input.nextInt(); input.nextLine();
+                                choiseCart = input.nextInt(); 
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 if(choiseCart == 1){
                                     p.compra();
@@ -119,7 +123,9 @@ class Profile extends User{
                                 Product p = itrProducts.next();
 
                                 System.out.printf(p.toString()+menuProduct);
-                                choiseProduct = input.nextInt(); input.nextLine();
+                                choiseProduct = input.nextInt(); 
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 if(choiseProduct == 1) p.editProduct();
                                 else{
@@ -141,7 +147,9 @@ class Profile extends User{
                                 Message messageBox = itrMessages.next();
 
                                 System.out.printf(messageBox.toString()+menuMessage);
-                                choiseMessage = input.nextInt(); input.nextLine();
+                                choiseMessage = input.nextInt(); 
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 if(choiseMessage == 1){
                                     Message res = new Message(this);
@@ -163,11 +171,11 @@ class Profile extends User{
                         break;
 
                 case 6: this.editUser();  break;
-                case 7: this.aux = false; break;
+                case 7: aux = false; break;
                 default: System.out.printf("\nOpção inválida.\n");
 
             }
         }
 
     }
-}
+} 

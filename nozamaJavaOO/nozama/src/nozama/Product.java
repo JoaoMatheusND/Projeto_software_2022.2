@@ -37,6 +37,9 @@ class Product {
         this.setPrice();      System.out.println();
         System.out.printf("\nQual a quantidade desse produto?\n=>");
         this.qtdProduto = input.nextInt();
+
+        if(input.hasNextLine()) input.nextLine();
+
         this.owner = e;
        
         System.out.println(qtdProduto);
@@ -55,6 +58,8 @@ class Product {
             System.out.println(this.toString());
             System.out.println(menuEdit);
             userChoise = input.nextInt();
+
+            if(input.hasNextLine()) input.nextLine();
             
             switch(userChoise){
                 // case 1: edita o nome do produto.

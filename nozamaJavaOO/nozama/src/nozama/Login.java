@@ -82,6 +82,7 @@ class Login {
 
             if(e.getEmail().equals(novoPerfil.getEmail())){
                 System.out.println("\nE-mail já cadastrado. Tente novamente mais tarde.\n");
+                return;
             }
         }
 

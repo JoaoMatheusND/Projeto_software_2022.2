@@ -28,8 +28,7 @@ class User {
   
     //Método construtor para criar usuários, inserindo os dados iniciais.
     public User(){
-        this.setEmail(); System.out.println();
-      
+        this.setEmail(); System.out.printf("\n");
     }
 
     public void setUsers(){
@@ -59,6 +58,8 @@ class User {
             this.toString();
             System.out.printf(menuEdit);
             userChoise = input.nextInt();
+
+            if(input.hasNextLine()) input.nextLine();
             
 
             switch(userChoise){

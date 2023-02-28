@@ -22,7 +22,7 @@ class UserAdmin extends User{
         this.password = email;
     }
 
-    public UserAdmin(){}
+    public UserAdmin(){System.out.printf("\n");}
     
     public void setUserAdmin(){
         setUser();
@@ -49,6 +49,8 @@ class UserAdmin extends User{
             this.toString();
             System.out.println(menuEdit);
             userChoise = input.nextInt();
+
+            if(input.hasNextLine()) input.nextLine();
 
             switch(userChoise){
                 // case 1: edita o nome do usuário admin.
@@ -89,7 +91,9 @@ class UserAdmin extends User{
 
         while(aux){
             System.out.printf("\n"+menuUserAdmin);
-            adminChoise = input.nextInt(); input.nextLine();
+            adminChoise = input.nextInt(); 
+
+            if(input.hasNextLine()) input.nextLine();
 
             switch(adminChoise){
                 // case 1: interage com todos os usuários do sistema (podendo excluir cada um individualmente).
@@ -100,6 +104,8 @@ class UserAdmin extends User{
                                 Profile p = itrProfiles.next();
                                 System.out.println(p.toString()+"\n"+adminUserMsm);
                                 int choise = input.nextInt();
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 switch(choise){
                                     case 1: Message message = new Message();
@@ -128,6 +134,8 @@ class UserAdmin extends User{
                                 Product auxItrProduct = itrProducts.next();
                                 System.out.print("\n"+auxItrProduct.toString()+"\n"+adminUserMsm);
                                 int choise = input.nextInt();
+
+                                if(input.hasNextLine()) input.nextLine();
 
                                 switch(choise){
                                     case 1: Message message = new Message();
@@ -171,6 +179,5 @@ class UserAdmin extends User{
     public String toString() {
         return "\nUser: "+getUser()+"\nCPF: "+getCpf()+"\nE-mail: "+getEmail()+"\n";
     }
-
     
 }

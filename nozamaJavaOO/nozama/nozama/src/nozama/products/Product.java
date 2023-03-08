@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import nozama.Profile;
 
-public class Product {  
+public abstract class Product {  
     Scanner input = new Scanner(System.in);
 
     //Array para avaliações
@@ -36,7 +36,6 @@ public class Product {
        
         System.out.println(qtdProduto);
     }
-
 
     //Método para editar alguns atributos dessa classe, individualmente.
     public void editProduct(){

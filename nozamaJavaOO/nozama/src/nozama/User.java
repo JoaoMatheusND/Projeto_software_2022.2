@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import nozama.products.Product;
+
 class User {
 
     //input: entrada de dadps do usuário.
@@ -25,12 +27,9 @@ class User {
                    password = "[edit_password]",
                    favorito = "[edit_categoria]";
     boolean aux = false;  
+    float bank = 0f;
   
     //Método construtor para criar usuários, inserindo os dados iniciais.
-    public User(){
-        this.setEmail(); System.out.printf("\n");
-    }
-
     public void setUsers(){
         this.setUser(); System.out.println();
         this.setCpf(); System.out.println();
@@ -48,7 +47,7 @@ class User {
         boolean aux = true; 
         String userAux;
 
-        String menuEdit = "Qual característica gostaria de editar?\n"+
+        String menuEdit = "\nQual característica gostaria de editar?\n"+
                           "1 - Nome do usuário;\n"+
                           "2 - Troca de endereço;\n"+
                           "3 - Troca de E-mail;\n"+
@@ -73,15 +72,15 @@ class User {
                 case 3: setEmail();  break;
 
                 // case 4: edita a senha, inserindo a senha anterior.
-                case 4: System.out.printf("Insira sua senha atual:\n=>");
+                case 4: System.out.printf("\nInsira sua senha atual:\n=>");
                         userAux = input.nextLine();
 
                         if(userAux.equals(getPassword())) setPassword();
-                        else System.out.println("Senha incorreta. Não foi possível efetuar a troca de senha.\n");
+                        else System.out.println("S\nenha incorreta. Não foi possível efetuar a troca de senha.\n");
                         break;
                 // case 5: finaliza a edição.
                 case 5: aux = false; break;
-                default: System.out.println("Insira um valor válido.\n"); break;
+                default: System.out.println("\nInsira um valor válido.\n"); break;
 
             }
 
@@ -103,7 +102,7 @@ class User {
     //      getters and setters
     public void setUser()
     {
-        System.out.printf("Digite seu nome:\n=>");
+        System.out.printf("znDigite seu nome:\n=>");
         this.user = input.nextLine();
     }
 
@@ -111,7 +110,7 @@ class User {
 
     public void setAge()
     {
-        System.out.printf("Digite sua idade:\n=>");
+        System.out.printf("\nDigite sua idade:\n=>");
         this.age = input.nextLine();
     }
 
@@ -119,7 +118,7 @@ class User {
 
     public void setGender()
     {
-        System.out.printf("Digite seu gênero:\n=>");
+        System.out.printf("\nDigite seu gênero:\n=>");
         this.gender = input.nextLine();
     }
 
@@ -127,7 +126,7 @@ class User {
 
     public void setCpf()
     {
-        System.out.printf("Digite seu CPF:\n=>");
+        System.out.printf("\nDigite seu CPF:\n=>");
         this.cpf = input.nextLine();
     }
 
@@ -135,7 +134,7 @@ class User {
 
     public void setAdress()
     {
-        System.out.printf("Digite seu endereco:\n=>");
+        System.out.printf("\nDigite seu endereco:\n=>");
         this.adress = input.nextLine();
     }
 
@@ -143,7 +142,7 @@ class User {
 
     public void setEmail()
     {
-        System.out.printf("Digite seu e-mail:\n=>");
+        System.out.printf("\nDigite seu e-mail:\n=>");
         this.email = input.nextLine();
     }
 
@@ -151,7 +150,7 @@ class User {
 
     public void setPassword()
     {
-        System.out.printf("Digite sua senha:\n=>");
+        System.out.printf("\nDigite sua senha:\n=>");
         password = input.nextLine();
     }
 
@@ -161,23 +160,27 @@ class User {
         this.myCart.add(product);
     }
 
+    public void setValorBank(float plus){
+        bank += plus;
+    }
+
+    public float getValorBank(){return this.bank;}
+
     //Calcula a moda das categorias dos intem comprados por (this) 
     public String getFavorito(){
-        int eletronico=0, roupas=0, outros=0;
+        int casa = 0, comida = 0, diversos = 0, eletronicos = 0, roupas = 0;
         Iterator<String> itr = favoritos.iterator();
 
         while(itr.hasNext()){
             String e = itr.next();
 
-            if(e.equals("Eletrônicos")) eletronico++;
+            if(e.equals("Casa")) casa++;
+            if(e.equals("Comida")) comida++;
+            if(e.equals("Diversos")) diversos++;
+            if(e.equals("eletronicos")) eletronicos++;
             if(e.equals("Roupas")) roupas++;
-            if(e.equals("Outros")) outros++;
         }
-
-        if(eletronico > roupas && eletronico > outros) this.favorito = "Eletrônicos";
-        if(roupas > eletronico && roupas > outros) this.favorito = "Roupas";
-        if(outros > roupas && outros > eletronico) this.favorito = "Outros";
-
+        
         return this.favorito;
     }
 

@@ -1,9 +1,10 @@
 package nozama;
 
+import nozama.products.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
-class Profile extends User{
+public class Profile extends User{
 
     Bd bancoDados = Bd.getInstance();
     Scanner input = new Scanner(System.in);
@@ -68,14 +69,32 @@ class Profile extends User{
 
                                 if(choiseBuy == 1){
                                     this.getMycart().add(e);
-                                    System.out.printf("\nProducto adcionado com sucesso!!!\n");
+                                    System.out.printf("\nProducto adicionado com sucesso!!!\n");
                                 } else System.out.printf("\nOk! continuaremos...\n");
                             }
                         }System.out.printf("\nNão existe nenhum produto no feed ainda.\n");
                         break;
 
-                case 2: Product e = new Product(this);
-                        this.setMyProduct(e);
+                case 2: Product e = null;
+                         System.out.printf("Qual a categoria do seu produto?\n"+
+                                        "1 - Casa;\n"+
+                                        "2 - Comida;\n"+
+                                        "3 - Eletronicos\n"+
+                                        "4 - Roupas\n"+
+                                        "5 - diversosn\n");
+                        int choise = input.nextInt();
+
+                        if(input.hasNextLine()) input.nextLine();
+
+                        switch(choise){
+                            case 1: e = new Casa(this);     break;
+                            case 2: e = new Comida(this);   break;
+                            case 3: e = new Eletrics(this); break;
+                            case 4: e = new Roupas(this);   break;
+                            case 5: e = new Diversos(this); break;
+                            default: System.out.println("Valor inválido, o produto será declarado como 'Diverso'"); e = new Diversos(this); break;
+                        }
+
                         bancoDados.getProducts().add(e);
 
                         Message messageProduct = new Message(this);
@@ -86,7 +105,7 @@ class Profile extends User{
                         while(itrProfiles.hasNext()){
                             Profile p = itrProfiles.next();
 
-                            if(p.getFavorito().equals(e.categoria.toString())) p.setMessageBox(messageProduct);
+                            if(p.getFavorito().equals(e.getCategory().toString())) p.setMessageBox(messageProduct);
                         }
                         break;
 

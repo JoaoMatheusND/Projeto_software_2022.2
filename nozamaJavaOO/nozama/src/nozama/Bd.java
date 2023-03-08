@@ -2,6 +2,8 @@ package nozama;
 
 import java.util.ArrayList;
 
+import nozama.products.Product;
+
 class Bd{
 
     /* Padrão Singlton pra criação de um banco de dados em tempo de execução */

@@ -2,6 +2,7 @@ package nozama;
 
 import java.util.Iterator;
 import java.util.Scanner;
+import nozama.products.*;
 
 class UserAdmin extends User{
     
@@ -39,11 +40,11 @@ class UserAdmin extends User{
         int userChoise;
         boolean aux = true;
         String userAux;
-        String menuEdit = "Qual caracteristiac gostaria de editar?\n"+
+        String menuEdit = "\nQual caracteristiac gostaria de editar?\n"+
                           "1 - Nome de usuário;\n"+
                           "2 - Troca de e-mail;\n"+
                           "3 - Troca de senha;\n"+
-                          "4 - Sair.\n";
+                          "4 - Sair.\n=>";
 
         do{
             this.toString();
@@ -60,16 +61,16 @@ class UserAdmin extends User{
                 case 2: setEmail(); break;
 
                 //case 3: troca a senha, baseado na senha anterior.
-                case 3: System.out.printf("Insira sua senha atual:\n=>");
+                case 3: System.out.printf("\nInsira sua senha atual:\n=>");
                         userAux = input.nextLine();
 
                         if(userAux.equals(getPassword())) setPassword();
-                        else System.out.println("Senha incorreta. Não foi possivel efetuar a troca de senha.\n");
+                        else System.out.println("\nSenha incorreta. Não foi possivel efetuar a troca de senha.\n");
                         break;
                 
                 // case 4: finaliza a edição de usuário admin
                 case 4: aux = false; break;
-                default: System.out.println("Insira um valor válido.\n"); break;
+                default: System.out.println("\nInsira um valor válido.\n"); break;
             }
         }while(aux);
     }
@@ -80,7 +81,7 @@ class UserAdmin extends User{
         // Atributos locais
         boolean aux = true;
         int adminChoise;
-        String menuUserAdmin = "1 - Ver Todos os usuários.\n"+
+        String menuUserAdmin = "\n1 - Ver Todos os usuários.\n"+
                                "2 - ver todos os produtos.\n"+
                                "3 - Editar perfil.\n"+
                                "4 - Adicionar novo ADMIN.\n"+
@@ -179,5 +180,4 @@ class UserAdmin extends User{
     public String toString() {
         return "\nUser: "+getUser()+"\nCPF: "+getCpf()+"\nE-mail: "+getEmail()+"\n";
     }
-    
 }

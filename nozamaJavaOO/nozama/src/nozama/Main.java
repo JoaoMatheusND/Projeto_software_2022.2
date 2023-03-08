@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+
         //Atributos de administração, input: entrada de dados, login: logagem no sistema.
         Scanner input = new Scanner(System.in);
         Login login = new Login();
@@ -17,7 +18,7 @@ public class Main {
         int choise, index;
 
         //Admin default do sistema.
-        //bancoDados.getUserAdmin().add(new UserAdmin("admin", "123.456.789-10", "admin", "admin"));
+        bancoDados.getUserAdmin().add(new UserAdmin("admin", "123.456.789-10", "admin", "admin"));
 
         while(active)
         {

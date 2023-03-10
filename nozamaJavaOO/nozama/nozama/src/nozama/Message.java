@@ -2,6 +2,8 @@ package nozama;
 
 import java.util.Scanner;
 
+import nozama.payment.Buy;
+
 class Message{
 
     Scanner input = new Scanner(System.in);
@@ -22,7 +24,7 @@ class Message{
     public void setMessage(String who){
         this.who = who;
 
-        System.out.printf("\nQual a sua mensagem?\n=>");
+        System.out.printf("\n\tQual a sua mensagem?\n=>");
         this.message = input.nextLine();
         this.type = 0;
 
@@ -44,19 +46,19 @@ class Message{
         this.type = 3;
     }
 
-    public void setBuyProduct(String who, String product){
+    public void setBuyProduct(String who, String product, Buy payment){
         this.who = who;
-        this.message = "\tItem "+product+" foi Comprado por " + who+"\n";
+        this.message = "\tItem "+product+" foi Comprado por " + who+"\n"+"compra: "+payment.toString()+"\n";
         this.type = 4;
     }
 
     @Override
     public String toString() {
         switch(this.type){
-            case 0: return "\t\tUsuário: "+this.who+", enviou uma message.\nMessage: "+this.message+"\n";
-            case 1: return "\t\tVendedor: "+this.who+", postou um novo produto no feed.\nProduto:\n"+this.message+"\n";
-            case 2: return "\t\tAdmin: "+this.who+".\nMessage: "+message+"\n"+"essa mensagem não poderá ser respondida"+"\n"; 
-            case 3: return "\t\tAnônimo\nMessage:"+this.message;
+            case 0: return "\tUsuário: "+this.who+", enviou uma message.\nMessage: "+this.message+"\n";
+            case 1: return "\tVendedor: "+this.who+", postou um novo produto no feed.\nProduto:\n"+this.message+"\n";
+            case 2: return "\tAdmin: "+this.who+".\nMessage: "+message+"\n"+"essa mensagem não poderá ser respondida"+"\n"; 
+            case 3: return "\tAnônimo\nMessage:"+this.message;
             case 4: return this.message; 
             default: return "\nMessage: Algo de errado ocorreu com sua mensagem!\n";
         }

@@ -22,7 +22,7 @@ public class Main {
 
         while(active)
         {
-            System.out.println("\nBem-vindo ao nozamA!");
+            System.out.println("\n\t\tBem-vindo ao nozamA!");
             System.out.printf("1 - Login;\n2 - Cadastro;\n3 - Administrar;\n4 - Sair.\n=>");            
         
             choise = input.nextInt(); // Entrada de dados: inteiro.
@@ -47,7 +47,7 @@ public class Main {
                 case 4: active = false; break;
 
                 //    default: caso o usuário insira um valor não mapiado no sistema.
-                default: System.out.println("Insira uma opção válida.\n"); break;
+                default: System.out.println("\n\tInsira uma opção válida.\n"); break;
             }
         }
         input.close(); //finaliza o controle de dados do usuário.

@@ -124,7 +124,7 @@ class UserAdmin extends User{
                                     default: System.out.print(op); break;
                                 }
                             }
-                        } else System.out.printf("\nNão exitem contas registradas ainda.\n");
+                        } else System.out.printf("\n\tNão exitem contas registradas ainda.\n");
                         break;
 
                 // case 2: interage com todos os produtos, podedendo excluit individualmente.
@@ -151,7 +151,7 @@ class UserAdmin extends User{
                                     default: System.out.print(op);
                                 }
                             }
-                        }else System.out.printf("\nNão exitem produtos registrados registradas ainda.\n");
+                        }else System.out.printf("\n\tNão exitem produtos registrados registradas ainda.\n");
                         break;
 
                 // case 3: edita dados do usuário administrador.
@@ -165,7 +165,7 @@ class UserAdmin extends User{
                         break;
 
                 // case 5: Working In Progress.
-                case 5: System.out.printf("\nWIP\n"); break;
+                case 5: System.out.printf("\n\t\tWIP\n"); break;
                 case 6: aux = false; break;
                 default: System.out.print(op) ;      
 

@@ -15,7 +15,7 @@ class Login {
 
         //  Analisa se existe conta de usuário simples registrada
         if(bancoDados.getUsers().isEmpty()){
-            System.out.printf("Não existem contas registradas ainda. Gostaria de registar?\n1 - SIM\n2 - NÃO\n=>");
+            System.out.printf("\n\tNão existem contas registradas ainda. Gostaria de registar?\n1 - SIM\n2 - NÃO\n=>");
             int choises = input.nextInt();
 
             if(choises != 1) {return -1;}
@@ -27,10 +27,10 @@ class Login {
 
         String email, password;
 
-        System.out.printf("Digite seu E-mail:\n=>");
+        System.out.printf("\n\tDigite seu E-mail:\n=>");
         email = input.nextLine(); System.out.println();
 
-        System.out.printf("Digite sua senha:\n=>");
+        System.out.printf("\n\tDigite sua senha:\n=>");
         password = input.nextLine(); System.out.println();
 
         Iterator<Profile> itr = bancoDados.getUsers().iterator();
@@ -41,7 +41,7 @@ class Login {
             if(e.getEmail().intern()    == email.intern() &&
                e.getPassword().intern() == password.intern()) return i;
         }
-        System.out.println("E-mail ou senha incorretos. Tente novamente.");
+        System.out.println("\n\t\tE-mail ou senha incorretos. Tente novamente.\n");
         return -1;
     } 
 
@@ -50,10 +50,10 @@ class Login {
 
         String email, password;
 
-        System.out.printf("Digite seu E-mail:\n=>");
+        System.out.printf("\n\tDigite seu E-mail:\n=>");
         email = input.nextLine(); System.out.println();
 
-        System.out.printf("Digite sua senha:\n=>");
+        System.out.printf("\n\tDigite sua senha:\n=>");
         password = input.nextLine(); System.out.println();
 
         Iterator<UserAdmin> itr = bancoDados.getUserAdmin().iterator();
@@ -65,7 +65,7 @@ class Login {
                e.getPassword().intern() == password.intern()) return i;
             i++;   
         }
-        System.out.println("E-mail ou senha incorretos. Tente novamente.");
+        System.out.println("\nt\t\tE-mail ou senha incorretos. Tente novamente.\n");
         return -1;
     } 
     
@@ -81,7 +81,7 @@ class Login {
             Profile e = itr.next();
 
             if(e.getEmail().equals(novoPerfil.getEmail())){
-                System.out.println("\nE-mail já cadastrado. Tente novamente mais tarde.\n");
+                System.out.println("\n\tE-mail já cadastrado. Tente novamente mais tarde.\n");
                 return;
             }
         }

@@ -1,6 +1,10 @@
 package nozama;
 
+import nozama.payment.BuyBoleto;
+import nozama.payment.BuyPix;
 import nozama.products.*;
+
+import java.beans.beancontext.BeanContextServiceRevokedEvent;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -46,10 +50,11 @@ public class Profile extends User{
                              "[1] - Responder;\n"+
                              "[2] - Remover;\n"+
                              "[3] - Continuar.\n=>";
+        String payment = "Qual a forma de pagamento:\n"+
+                         "1 - Boleto;\n"+
+                         "2 - Pix;\n=>";
 
-
-
-        while(aux){
+            while(aux){
             System.out.printf(super.toString()+menuUser);
             userChoise = input.nextInt();
 
@@ -69,14 +74,14 @@ public class Profile extends User{
 
                                 if(choiseBuy == 1){
                                     this.getMycart().add(e);
-                                    System.out.printf("\nProducto adicionado com sucesso!!!\n");
-                                } else System.out.printf("\nOk! continuaremos...\n");
+                                    System.out.printf("\n\tProducto adicionado com sucesso!!!\n");
+                                } else System.out.printf("\n\tOk! continuaremos...\n");
                             }
-                        }System.out.printf("\nNão existe nenhum produto no feed ainda.\n");
+                        }System.out.printf("\n\tNão existe nenhum produto no feed ainda.\n");
                         break;
 
                 case 2: Product e = null;
-                         System.out.printf("Qual a categoria do seu produto?\n"+
+                         System.out.printf("\n\tQual a categoria do seu produto?\n"+
                                         "1 - Casa;\n"+
                                         "2 - Comida;\n"+
                                         "3 - Eletronicos\n"+
@@ -92,10 +97,11 @@ public class Profile extends User{
                             case 3: e = new Eletrics(this); break;
                             case 4: e = new Roupas(this);   break;
                             case 5: e = new Diversos(this); break;
-                            default: System.out.println("Valor inválido, o produto será declarado como 'Diverso'"); e = new Diversos(this); break;
+                            default: System.out.println("\n\tValor inválido, o produto será declarado como 'Diverso'"); e = new Diversos(this); break;
                         }
 
                         bancoDados.getProducts().add(e);
+                        this.getMyProduct().add(e);
 
                         Message messageProduct = new Message(this);
                                 messageProduct.setMessageProduct(this.getUser(), e.toString());
@@ -121,15 +127,32 @@ public class Profile extends User{
                                 if(input.hasNextLine()) input.nextLine();
 
                                 if(choiseCart == 1){
-                                    p.compra();
-                                    Message messageCart = new Message(this);
-                                    messageCart.setBuyProduct(this.getUser(), p.getName());
-                                    p.owner.setMessageBox(messageCart);
-                                    //Buy pagamento = new Buy(this.getUser(), p.owner, p);
+                                    System.out.printf("\n\n\tProcessando...\n\n"+payment);
+                                    choiseCart = input.nextInt();
 
+                                    if(input.hasNextLine()) input.nextLine();
+
+                                    if(choiseCart == 1){
+                                        BuyBoleto pagamento = new BuyBoleto(this, p.owner, p);
+                                        Message messageCart = new Message(this);
+                                        messageCart.setBuyProduct(this.getUser(), p.getName(), pagamento);
+                                        p.owner.setMessageBox(messageCart);                                
+                                    }else{
+                                        BuyPix pagamento = new BuyPix(this, p.owner, p);
+                                        Message messageCart = new Message(this);
+                                        messageCart.setBuyProduct(this.getUser(), p.getName(), pagamento);
+                                        p.owner.setMessageBox(messageCart);
+                                        System.out.print(pagamento.gerarQrCode());
+                                    }
+                                    p.compra();
+
+                                    if(p.getQtd() == 0){
+                                        bancoDados.getProducts().remove(p);
+                                        itrProducts.remove();
+                                    }
                                 } else{
                                     itrProducts.remove();
-                                    System.out.printf("\nItem removido com sucesso!.\n");
+                                    System.out.printf("\n\tItem removido com sucesso!.\n");
                                 }
                                 
                                 System.out.printf("\n\t\tCONTINUANDO!\n");
@@ -148,7 +171,15 @@ public class Profile extends User{
 
                                 if(input.hasNextLine()) input.nextLine();
 
-                                if(choiseProduct == 1) p.editProduct();
+                                if(choiseProduct == 1){
+                                    p.editProduct();
+
+                                    if(p.getQtd() == 0) bancoDados.getProducts().remove(p);
+                                    else{
+                                        bancoDados.getProducts().remove(p);
+                                        bancoDados.getProducts().add(p);
+                                    }
+                                }
                                 else{
                                     bancoDados.getProducts().remove(p);
                                     itrProducts.remove();
@@ -158,7 +189,7 @@ public class Profile extends User{
 
                                 System.out.printf("\n\t\tCONTINUANDO!\n");
                             }
-                        }else System.out.printf("\nSeu carrinho estar vazio!\n");
+                        }else System.out.printf("\n\tSeu carrinho estar vazio!\n");
                         break;
                     
                 case 5: if(!this.getMessageBox().isEmpty()){
@@ -176,24 +207,25 @@ public class Profile extends User{
                                     Message res = new Message(this);
                                     res.setMessage(this.getUser());
 
-                                    messageBox.aux.getMessageBox().add(res);
-
-                                    System.out.printf("\nResposta enviada com sucesso!\n");
-
+                                    if(!messageBox.aux.getCpf().equals(this.getCpf())){
+                                        messageBox.aux.getMessageBox().add(res);
+                                        System.out.printf("\n\tResposta enviada com sucesso!\n");
+                                    } 
+                                    else System.out.printf("\n\n\tAuto resposta detectada.\n\n");
                                 }else{
                                     itrMessages.remove();
-                                    System.out.printf("\nMensagem removida com sucesso!\n");
+                                    System.out.printf("\n\tMensagem removida com sucesso!\n");
                                 }
 
                                 System.out.printf("\n\tCONTINUANDO!!\n");
                             }
 
-                        }else System.out.printf("\nVocê não tem mensagem em seus dados.\n");
+                        }else System.out.printf("\n\tVocê não tem mensagem em seus dados.\n");
                         break;
 
                 case 6: this.editUser();  break;
                 case 7: aux = false; break;
-                default: System.out.printf("\nOpção inválida.\n");
+                default: System.out.printf("\n\tOpção inválida.\n");
 
             }
         }

@@ -46,7 +46,7 @@ class User {
         boolean aux = true; 
         String userAux;
 
-        String menuEdit = "\nQual característica gostaria de editar?\n"+
+        String menuEdit = "\n\nQual característica gostaria de editar?\n"+
                           "1 - Nome do usuário;\n"+
                           "2 - Troca de endereço;\n"+
                           "3 - Troca de E-mail;\n"+
@@ -71,7 +71,7 @@ class User {
                 case 3: setEmail();  break;
 
                 // case 4: edita a senha, inserindo a senha anterior.
-                case 4: System.out.printf("\nInsira sua senha atual:\n=>");
+                case 4: System.out.printf("\n\nInsira sua senha atual:\n=>");
                         userAux = input.nextLine();
 
                         if(userAux.equals(getPassword())) setPassword();
@@ -89,8 +89,8 @@ class User {
     //Override para substituir o método toString() da class object para um padrão mais coerente a essa classe
     @Override
     public String toString() {
-        return "User: "+this.user+"\n"+
-               "Categoria preferida: "+this.favorito+"\n"+
+        return "\n\nUser: "+this.user+"\n"+
+               "Categoria preferida: "+getFavorito()+"\n"+
                "Age: "+this.age+"\n"+
                "Gender: "+this.gender+"\n"+
                "CPF: "+this.cpf+"\n"+
@@ -101,7 +101,7 @@ class User {
     //      getters and setters
     public void setUser()
     {
-        System.out.printf("znDigite seu nome:\n=>");
+        System.out.printf("\nDigite seu nome:\n=>");
         this.user = input.nextLine();
     }
 
@@ -202,6 +202,6 @@ class User {
     public ArrayList<Product> getMyProduct() {return this.myProduct;}
 
     public void setMessageBox(Message e) {this.messageBox.add(e);}
-    
+
     public ArrayList<Message> getMessageBox() {return this.messageBox;}
 }

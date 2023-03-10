@@ -24,8 +24,7 @@ class User {
                    cpf      = "[edit_cpf]",
                    adress   = "[edit_adress]",
                    email    = "[edit_email]",
-                   password = "[edit_password]",
-                   favorito = "[edit_categoria]";
+                   password = "[edit_password]";
     boolean aux = false;  
     float bank = 0f;
   
@@ -102,7 +101,7 @@ class User {
     //      getters and setters
     public void setUser()
     {
-        System.out.printf("\nDigite seu nome:\n=>");
+        System.out.printf("znDigite seu nome:\n=>");
         this.user = input.nextLine();
     }
 
@@ -182,11 +181,18 @@ class User {
         }
 
         if(casa >= comida && casa >= diversos && casa >= eletronicos && casa >= eletronicos && casa >= roupas){
-          return "Casa";
-        }else if(comida > casa && comida >= diversos && comida > eletronicos && comida > eletronicos && comida > roupas){
-          return"Comida";
+            return "Casa";
+        }else if(comida >= casa && comida >= diversos && comida >= eletronicos && comida >= eletronicos && comida >= roupas){
+            return"Comida";
+        }else if(diversos >= casa && diversos >= comida && diversos >= eletronicos && diversos >= eletronicos && diversos >= roupas){
+            return "Diversos";
+        }else if(eletronicos >= casa && eletronicos >= diversos && eletronicos >= comida && eletronicos >= eletronicos && eletronicos >= roupas){
+            return "Eletrônicos";
+        }else if(roupas >= casa && roupas >= diversos && roupas >= eletronicos && roupas >= eletronicos && roupas >= comida){
+            return "Roupas";
         }
-        return this.favorito;
+
+        return "Defaut";
     }
 
     public ArrayList<Product> getMycart(){return this.myCart;}
@@ -196,5 +202,6 @@ class User {
     public ArrayList<Product> getMyProduct() {return this.myProduct;}
 
     public void setMessageBox(Message e) {this.messageBox.add(e);}
+    
     public ArrayList<Message> getMessageBox() {return this.messageBox;}
 }

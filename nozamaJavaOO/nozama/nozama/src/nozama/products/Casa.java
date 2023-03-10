@@ -14,6 +14,7 @@ public class Casa extends Product {
     public Casa(Profile e){
         super(e);
         setTam();
+        setBool();
     }
 
     private void setTam(){

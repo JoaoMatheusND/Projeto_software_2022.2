@@ -67,7 +67,7 @@ public class Eletrics extends Product{
     public String toString() {
         String aux = "\nResolução do produto: "+resolucao+";\n"+
                      "Capacidade do produto: "+capacidade+"\n"+
-                     "Desvalorização do produto: "+valoriza()+"%\n";
+                     "Desvalorização do produto: "+valoriza()+"%%\n";
         return super.toString()+aux;
     }
     

@@ -12,8 +12,9 @@ public class Comida  extends Product{
 
     public Comida(Profile e){
         super(e);
-
         setBools();
+        setQdt();
+        setValidade()
     }
 
     public void setBools(){

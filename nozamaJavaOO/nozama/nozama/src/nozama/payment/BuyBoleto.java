@@ -42,5 +42,10 @@ public class BuyBoleto  extends Buy{
     public String getProductState() {
         return this.productState;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
     
 }

@@ -1,13 +1,17 @@
 package nozama.payment;
 
+import java.awt.image.*;
+
 import nozama.Profile;
 import nozama.products.Product;
+import java.io.File;
 
 public class BuyPix extends Buy{
     
     private int vencimento;
     private float valorMinimo;
     private String productState;
+    private BufferedImage QrCode;
     
     public BuyPix(Profile buyer, Profile seller, Product product){
         super(buyer, seller, product);
@@ -43,9 +47,16 @@ public class BuyPix extends Buy{
     public String getProductState() {
         return this.productState;
     }
-    public void gerarQrCode(){
-//nome do comprador como chave
 
+    @Override
+    public String toString() {
+        return super.toString()+"\n\n"+gerarQrCode();
+    }
+
+    public File gerarQrCode(){
+//nome do comprador como chave
+        File qr = new File("/QrCode.png");
+        return qr;
     }
     
 }

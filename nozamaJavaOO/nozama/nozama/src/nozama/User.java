@@ -102,7 +102,7 @@ class User {
     //      getters and setters
     public void setUser()
     {
-        System.out.printf("znDigite seu nome:\n=>");
+        System.out.printf("\nDigite seu nome:\n=>");
         this.user = input.nextLine();
     }
 

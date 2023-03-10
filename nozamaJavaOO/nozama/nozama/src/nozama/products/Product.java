@@ -41,11 +41,12 @@ public abstract class Product {
     public void editProduct(){
         int userChoise;
         boolean aux = true;
-        String menuEdit = "Qual característica gostaria de editar?\n"+
+        String menuEdit = "\n\nQual característica gostaria de editar?\n"+
                           "1 - Nome do produto;\n"+
                           "2 - Descrição do produto;\n"+
                           "3 - Preço do produto;\n"+
-                          "4 - Sair.\n";
+                          "4 - Quantidade de produto;\n"+
+                          "5 - Sair.\n=>";
         while(aux){            
             System.out.println(this.toString());
             System.out.println(menuEdit);
@@ -66,14 +67,23 @@ public abstract class Product {
                          this.description = input.nextLine(); 
                          break;  
 
-                // case 3: edita o preço do produto
+                // case 3: edita o preço do produto.
                 case 3:  System.out.printf("Digite um novo preço:\n=>");   
                           input.nextLine();
                           this.price = input.nextFloat();     
                           if(input.hasNextLine()) input.nextLine();
                           break;
-                // case 4: encerra a edição do produto
-                case 4:   aux = false;     
+
+                // case 4: edita a quanitdade de produto.
+                case 4: System.out.printf("Digite uma nova quantidade:\n=>");
+                        this.qtdProduto = input.nextInt();
+
+                        if(input.hasNextLine())input.nextLine();
+
+                        break;
+
+                // case 5: encerra a edição do produto.
+                case 5:   aux = false;     
                           break;
                 default: System.out.println("Insira um valor válido.\n"); break;
             }
@@ -85,7 +95,7 @@ public abstract class Product {
     //Override para substituir o método toString() da class object para um padrão mais coerente a essa classe
     @Override
     public String toString() { 
-        return "Dono do produto: "+this.owner.getUser()+";\n"+
+        return "\n\n\tDono do produto: "+this.owner.getUser()+";\n"+
                "Nome do produto: "+getName()+";\n"+
                "Descrição do produto: "+getDescription()+";\n"+
                "Categoria do produto: "+getCategory()+";\n"+
@@ -148,6 +158,10 @@ public abstract class Product {
     // Reduz o número do produto(this) disponivel no feed
     public void compra(){
         this.qtdProduto--;
+    }
+
+    public int getQtd(){
+        return this.qtdProduto;
     }
 
     public String getCategory(){

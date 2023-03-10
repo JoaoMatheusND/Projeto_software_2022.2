@@ -65,8 +65,8 @@ public class Eletrics extends Product{
 
     @Override
     public String toString() {
-        String aux = "\nResolução do produto: "+resolucao+";\n"+
-                     "Capacidade do produto: "+capacidade+"\n"+
+        String aux = "\nResolução do produto: "+resolucao+"polegadas;\n"+
+                     "Capacidade do produto: "+capacidade+"gigas;\n"+
                      "Desvalorização do produto: "+valoriza()+"%%\n";
         return super.toString()+aux;
     }

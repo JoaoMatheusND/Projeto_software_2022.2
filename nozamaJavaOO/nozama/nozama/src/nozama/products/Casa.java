@@ -14,7 +14,7 @@ public class Casa extends Product {
     public Casa(Profile e){
         super(e);
         setTam();
-        setBool();
+        this.setBool();
     }
 
     private void setTam(){
@@ -38,9 +38,9 @@ public class Casa extends Product {
         System.out.printf("Terreno bem localizado? [SIM] OU [NAO]\n=>");
         ans = input.nextLine();
 
-        if(ans.equals("SIM")) loc = true;
-
         if(input.hasNextLine()) input.nextLine();
+
+        if(ans.equals("SIM")) loc = true;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Casa extends Product {
 
     @Override
     public String toString() {
-        String aux = "Largura: "+largura+";\n"+
+        String aux = "\nLargura: "+largura+";\n"+
                      "Comprimento: "+comprimento+";\n"+
                      "Área construida: "+construido+";\n"+
                      "Boa localização: "+loc+".\n";

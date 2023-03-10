@@ -16,6 +16,7 @@ public class Roupas  extends Product{
 
     public Roupas(Profile e){
         super(e);
+        setDate();;
     }
 
     public void setDate(){

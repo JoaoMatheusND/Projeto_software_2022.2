@@ -12,9 +12,8 @@ public class Comida  extends Product{
 
     public Comida(Profile e){
         super(e);
+
         setBools();
-        setQdt();
-        setValidade()
     }
 
     public void setBools(){
@@ -63,8 +62,8 @@ public class Comida  extends Product{
 
     @Override
     public String toString() {
-        String aux = "contém Lactose: "+lactose+";\n"+
-                     "contém Gluten: "+gluten+";\n"+
+        String aux = "\nContém Lactose: "+lactose+";\n"+
+                     "Contém Gluten: "+gluten+";\n"+
                      "Enlatado: "+lata+";\n"+
                      "Quantidade de pessoas servidas: "+qdt+";\n"+
                      "Validade: "+validade+".\n";

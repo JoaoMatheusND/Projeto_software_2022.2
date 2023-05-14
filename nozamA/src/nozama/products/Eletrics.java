@@ -1,6 +1,7 @@
 package nozama.products;
 
-import nozama.Profile;
+import nozama.users.*;
+import nozama.products.states.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,10 +10,9 @@ import java.util.Scanner;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Eletrics extends Product implements ActionListener{
-
-    Scanner input = new Scanner(System.in);
 
     int resolucao;
     int capacidade;
@@ -99,7 +99,8 @@ public class Eletrics extends Product implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource() == enviar){
-            name        = txtName.getText();
+            try{
+                name        = txtName.getText();
         description = txtDescription.getText();
         price       = Float.parseFloat(txtPrice.getText());
         qtdProduto  = Integer.parseInt(txtQtd.getText());
@@ -124,6 +125,11 @@ public class Eletrics extends Product implements ActionListener{
         this.resolucao = Integer.parseInt(word);
         tela.dispose();
         System.out.println(this.toString());
+            }catch(NumberFormatException b){
+                JOptionPane.showMessageDialog(null,"Digite um número","Erro",JOptionPane.ERROR_MESSAGE);
+                qtdProduto  = 0;
+            }
+            
         }
     }
 

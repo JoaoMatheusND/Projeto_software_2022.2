@@ -2,10 +2,11 @@ package nozama.payment;
 
 import javax.swing.JOptionPane;
 
-import nozama.Profile;
+import nozama.users.*;
 import nozama.products.Product;
 
 public abstract class Buy{
+    
     Profile buyer, seller;
     Product product;
 
@@ -27,6 +28,7 @@ public abstract class Buy{
             product.compra();
             JOptionPane.showMessageDialog(null, "Produto comprado!", "Compra", JOptionPane.INFORMATION_MESSAGE);
             System.out.printf("\nCompra efetuada com sucesso!!\n");
+
             return true;
         } 
         JOptionPane.showMessageDialog(null, "Saldo Insuficiente", "Erro", JOptionPane.ERROR_MESSAGE);

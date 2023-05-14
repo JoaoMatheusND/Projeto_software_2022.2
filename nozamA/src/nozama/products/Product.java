@@ -1,15 +1,15 @@
 package nozama.products;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.*;
 import java.awt.*;
 
-import nozama.Profile;
+import nozama.products.states.*;
+import nozama.users.*;
 
 public abstract class Product extends JDialog{  
-    Scanner input = new Scanner(System.in);
+    public ProductContext state = new ProductContext(); //Amazenamento do estado do produto.
 
     //Array para avaliações
     ArrayList<Integer> rate = new ArrayList<Integer>();
@@ -18,9 +18,9 @@ public abstract class Product extends JDialog{
     public Profile owner;
 
     //Atributos básicos
-             String name,
-                   description, 
-                   category = "default";
+    String name,
+        description, 
+        category = "default";
      float price;
      int qtdProduto;
 
@@ -43,10 +43,10 @@ public abstract class Product extends JDialog{
         tela.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         tela.setLayout(new BorderLayout());
 
-         panel = new JPanel(new GridLayout(4,2));
+        panel = new JPanel(new GridLayout(4,2));
         JPanel panel2 = new JPanel();
 
-         enviar = new JButton("Enviar");
+        enviar = new JButton("Enviar");
 
         enviar.setCursor(new Cursor(12));
         enviar.setBackground(new Color(0,200,200));
@@ -127,12 +127,9 @@ public abstract class Product extends JDialog{
     }
 
     // Insere uma nova avaliação no produto.
-    public void setRate(){
-        int aval;
+    public void setRate(int aval){
+       
 
-        System.out.printf("Qual é sua avalação do produto:\n=>");
-        aval = input.nextInt();
-        System.out.println("Obrigado pela sua avaliação!\n");
         this.rate.add(aval);
     }
 
@@ -152,6 +149,7 @@ public abstract class Product extends JDialog{
     // Reduz o número do produto(this) disponivel no feed
     public void compra(){
         this.qtdProduto--;
+        if(qtdProduto <= 0) state.setState(new SoldOutState());
     }
 
     public int getQtd(){

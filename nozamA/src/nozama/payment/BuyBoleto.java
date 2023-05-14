@@ -4,13 +4,9 @@ import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-import nozama.Profile;
+import nozama.users.*;
 import nozama.products.Product;
 
 public class BuyBoleto  extends Buy {
@@ -29,7 +25,32 @@ public class BuyBoleto  extends Buy {
             j.dispose();
         });
         comprar.addActionListener(e -> {
-            Pay();
+            if(Pay()){
+                JDialog n = new JDialog();
+            JPanel z = new JPanel();
+            n.setLayout(new BorderLayout());
+            z.setLayout(new GridLayout(1,1));
+            JLabel lblav = new JLabel("Selecione uma nota para o produto: ");
+            JButton enviar =  new JButton("Confirmar");
+            JSlider slider = new JSlider(0,10,5);
+            slider.setPaintTicks(true);
+            slider.setMinorTickSpacing(1);
+            slider.setPaintTrack(true);
+            slider.setMajorTickSpacing(1);
+            slider.setPaintLabels(true);
+            enviar.addActionListener(q -> {
+                product.setRate(slider.getValue());
+                n.dispose();
+            });
+            z.add(lblav);
+            z.add(slider);
+            n.add(z,BorderLayout.CENTER);
+            n.add(enviar, BorderLayout.SOUTH);
+            n.setModal(true);
+            n.pack();
+            n.setVisible(true);
+            }
+            
             j.dispose();
         });
         panel = new JPanel();
@@ -65,12 +86,19 @@ bar += ".";
         +now.getYear()+"\n"+"Data de Vencimento do boleto:"+(vencimento.getDayOfMonth())+"/"+vencimento.getMonthValue()+"/"+vencimento.getYear()+
         "\nNome do comprador: "+ buyer.getUser()+"\nNome do vendedor: "+ seller.getUser()+"\nValor:"+product.getPrice()+"\nCódigo de Barras:"+bar;
     }
+   
+
+
+
 
     @Override
     public String getVencimento() {
         return "Data de Vencimento: "+this.vencimento.getDayOfMonth()+"/"+this.vencimento.getMonthValue()+"/"+this.vencimento.getYear();
     }
 
+   
+
+    
     @Override
     public String toString() {
         return super.toString();

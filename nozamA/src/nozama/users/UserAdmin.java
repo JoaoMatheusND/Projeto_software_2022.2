@@ -1,22 +1,22 @@
-package nozama;
+package nozama.users;
 
 import java.util.Iterator;
-import java.util.Scanner;
+
 import nozama.products.*;
+import nozama.app.Message;
+import nozama.app.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class UserAdmin extends User{
+public class UserAdmin extends User{
     
     Bd bancoDados = Bd.getInstance();
 
-    Scanner input = new Scanner(System.in);
-
     Iterator<Product> itrProducts;
-    Iterator<Profile> itrProfiles;
+    Iterator<User> itrProfiles;
     Iterator<Message> itrMessages;
 
     JDialog frame = this;
@@ -47,7 +47,8 @@ class UserAdmin extends User{
     }
     
     //Método para administrar como um usuário administrador
-    public void menuUserAdmin(){
+    @Override
+    public void menu(){
 
         // Atributos locais
         clearJDialog();
@@ -120,7 +121,6 @@ class UserAdmin extends User{
                 }else{
                     setVisible(false);
                     showUsers();
-                    setVisible(true);
                 }
             }
         });
@@ -180,90 +180,91 @@ class UserAdmin extends User{
     }
 
     private void showUsers(){
-        for(int i = 0; i<bancoDados.getUsers().size(); i++){
-            Profile profile = bancoDados.getUsers().get(i);
-            this.aux = true;
+        itrProfiles = bancoDados.getUsers().iterator();
 
-            while(this.aux){
-                this.pause = false;
+        while(itrProfiles.hasNext()){
+            User current = itrProfiles.next();
+            if(current instanceof UserAdmin) continue;
+            this.pause = false;
 
-                JDialog window = new JDialog(this);
-                window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                window.setModal(true);
-                window.setLayout(new BorderLayout());
-                window.getContentPane().setBackground(new Color(51,60,76));
-                window.setTitle("Usuários");
-                window.setResizable(false);
+            JFrame window = new JFrame();
+            window.setTitle("Users");
+            window.setLayout(new BorderLayout());
+            window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            window.setLocationRelativeTo(null);
+            window.getContentPane().setBackground(new Color(51,60,76));
 
-                JPanel panel = new JPanel();
-                JPanel menu = new  JPanel(new GridLayout(1,4));
+            JPanel panel = new JPanel(new BorderLayout());
 
-                JButton cancelar = new JButton("Cancelar");
-                JButton mensagem = new JButton("Mensagem");
-                JButton next     = new JButton("Próximo");
-                JButton excluir  = new JButton("Excluir");
+            JTextArea txt = new JTextArea(current.toString());
+            txt.setEditable(false);
+            txt.setAutoscrolls(true);
+            txt.setBackground(Color.lightGray);
 
-                cancelar.setCursor(new Cursor(12));
-                mensagem.setCursor(new Cursor(12));
-                next.setCursor(new Cursor(12));
-                excluir.setCursor(new Cursor(12));
+            panel.add(txt, BorderLayout.CENTER);
 
-                cancelar.setBackground(new Color(200,80,100));
-                mensagem.setBackground(new Color(225,127,17));
-                next.setBackground(new Color(225,127,17));
-                excluir.setBackground(new Color(250,50,50));
+            JPanel menu = new JPanel(new GridLayout(1, 4));
 
-                menu.add(cancelar);
-                menu.add(mensagem);
-                menu.add(next);
-                menu.add(excluir);
+            JButton cancelar = new JButton("Cancelar");
+            JButton msm      = new JButton("Mesagem");
+            JButton next     = new JButton("Próximo");
+            JButton ex       = new JButton("Excluir");
 
-                JTextArea dados = new JTextArea(profile.toString());
-                dados.setEditable(false);
-                dados.setBackground(Color.lightGray);
-                panel.setBackground(Color.lightGray);
-                panel.add(dados);
+            msm.setToolTipText("Enviar mensagem para  usuário.");
+            next.setToolTipText("IR para  próximo usuário");
+            ex.setToolTipText("Excluit usuário.");
 
-                window.add(panel, BorderLayout.CENTER);
-                window.add(menu, BorderLayout.SOUTH);
+            cancelar.setCursor(new Cursor(12));
+            msm.setCursor(new Cursor(12));
+            next.setCursor(new Cursor(12));
+            ex.setCursor(new Cursor(12));
 
+            cancelar.setBackground(new Color(200,80,100));
+            msm.setBackground(new Color(225,127,17));
+            next.setBackground(new Color(225,127,17));
+            ex.setBackground(new Color(250,50,50));
 
-                cancelar.addActionListener(e ->{
-                    this.pause = true;
-                    this.aux = false;
-                    window.dispose();
-                });
+            menu.add(cancelar);
+            menu.add(msm);
+            menu.add(next);
+            menu.add(ex);
 
-                mensagem.addActionListener(e -> {
-                    setVisible(false);
-                    sendMessage(profile);
-                    setVisible(true);
-                });
+            window.add(panel, BorderLayout.CENTER);
+            window.add(menu, BorderLayout.SOUTH);
 
-                next.addActionListener(e ->{
-                    this.aux = false;
-                    window.dispose();
-                });
+            window.pack();
+            window.setVisible(true);
 
-                excluir.addActionListener(e ->{
-                    itrProducts.remove();
-                    JOptionPane.showMessageDialog(this, "Produto removido!");
-                    window.dispose();
-                    this.aux = false;
-                });
-                
-                window.pack();
-                window.setVisible(true);
-            }
+            cancelar.addActionListener(e -> {
+                this.pause = true;
+                setVisible(true);
+                window.dispose();
+            });
             if(this.pause) break;
+
+            msm.addActionListener(e -> {
+                setVisible(false);
+                sendMessage((Profile)current);
+                setVisible(true);
+            });
+
+            next.addActionListener(e -> {
+                window.dispose();
+            });
+
+            ex.addActionListener(e -> {
+                itrProducts.remove();
+                JOptionPane.showMessageDialog(frame, "Usuário excluido com sucesso!", "Aviso!", -1);
+                window.dispose();
+            });
         }
     }
 
     private void sendMessage(Profile perfil){
         String mensagem = JOptionPane.showInputDialog(this, "Qual sua mensagem?", "Admin mensagem", -1);
         if(mensagem != null && !mensagem.isEmpty()){
-            Message msm = new Message();
-            msm.setMessageAdmin(getName(), mensagem);
+            Message msm = new Message(this);
+            msm.setMessage(getName(), mensagem, 2);
             perfil.getMessageBox().add(msm);
             JOptionPane.showMessageDialog(this, "Mensagem enviada com sucesso!", "Aviso!", -1);
         } else {
@@ -271,74 +272,68 @@ class UserAdmin extends User{
         }
     }
 
-    boolean aux;
     public void showProduct(){
-        for(int i = 0; i<bancoDados.getProducts().size(); i++){
-            this.aux = true;
+        itrProducts = bancoDados.getProducts().iterator();
+
+        while(itrProducts.hasNext()){
+            Product current = itrProducts.next();
+            this.pause = false;
+
+            JFrame window = new JFrame();
+            window.setTitle("Produtos");
+            window.setLayout(new BorderLayout());
+            window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            window.setLocationRelativeTo(null);
+            window.getContentPane().setBackground(new Color(51,60,76));
+
+            JPanel panel = new JPanel(new BorderLayout());
+
+            JTextArea txt = new JTextArea(current.toString());
+            txt.setEditable(false);
+            txt.setAutoscrolls(true);
+            txt.setBackground(Color.lightGray);
+
+            panel.add(txt, BorderLayout.CENTER);
+
+            JPanel menu = new JPanel(new GridLayout(1, 3));
+
+            JButton cancelar = new JButton("Cancelar");
+            JButton mensagem = new JButton("Mensagem");
+            JButton next     = new JButton("Próximo");
+
+            cancelar.setCursor(new Cursor(12));
+            mensagem.setCursor(new Cursor(12));
+            next.setCursor(new Cursor(12));
+
+            cancelar.setBackground(new Color(200,80,100));
+            mensagem.setBackground(new Color(225,127,17));
+            next.setBackground(new Color(225,127,17));
+
+            menu.add(cancelar);
+            menu.add(mensagem);
+            menu.add(next);
             
-            while(this.aux){
-                Product product = bancoDados.getProducts().get(i);
-                this.pause = false;
+            window.add(panel, BorderLayout.CENTER);
+            window.add(menu, BorderLayout.SOUTH);
 
-                JDialog window = new JDialog(this);
-                window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                window.setModal(true);
-                window.setLayout(new BorderLayout());
-                window.getContentPane().setBackground(new Color(51,60,76));
-                window.setTitle("Produtos");
-                window.setResizable(false);
+            window.pack();
+            window.setVisible(true);
 
-                JPanel panel = new JPanel();
-                JPanel menu = new JPanel(new GridLayout(1,3));
-
-                JTextArea dados = new JTextArea(product.toString());
-                dados.setEditable(false);
-                dados.setOpaque(true);
-                dados.setBackground(Color.lightGray);
-
-                panel.add(dados);
-                panel.setBackground(Color.lightGray);
-
-                JButton cancelar = new JButton("Cancelar");
-                JButton mensagem = new JButton("Mensagem");
-                JButton next     = new JButton("Próximo");
-
-                cancelar.setCursor(new Cursor(12));
-                mensagem.setCursor(new Cursor(12));
-                next.setCursor(new Cursor(12));
-
-                cancelar.setBackground(new Color(200,80,100));
-                mensagem.setBackground(new Color(225,127,17));
-                next.setBackground(new Color(225,127,17));
-
-                menu.add(cancelar);
-                menu.add(mensagem);
-                menu.add(next);
-
-                window.add(panel, BorderLayout.CENTER);
-                window.add(menu, BorderLayout.SOUTH);
-
-                cancelar.addActionListener(e -> {
-                    this.pause = true;
-                    this.aux = false;
-                    window.dispose();
-                });
-
-                mensagem.addActionListener(e -> {
-                   sendMessage(product.owner);
-                    this.aux = false;
-                    window.dispose();
-                });
-
-                next.addActionListener(e -> {
-                    this.aux = false;
-                    window.dispose();
-                });
-
-                window.pack();
-                window.setVisible(true);
-            }
+            cancelar.addActionListener(e -> {
+                this.pause = true;
+                window.dispose();
+            });
             if(this.pause) break;
+
+            mensagem.addActionListener(e -> {
+                sendMessage(current.owner);
+                window.dispose();
+            });
+
+            next.addActionListener(e -> {
+                window.dispose();
+            });
+
         }
     }
 }

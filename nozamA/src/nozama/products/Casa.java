@@ -1,22 +1,20 @@
 package nozama.products;
 
-import nozama.Profile;
-
+import nozama.users.*;
+import nozama.products.states.*;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
 public class Casa extends Product implements ActionListener{
-
-    Scanner input = new Scanner(System.in);
 
     int largura, comprimento;
     boolean construido, loc;
@@ -45,7 +43,8 @@ public class Casa extends Product implements ActionListener{
        
         
         enviar.addActionListener(this);
-         tela.pack();
+
+        tela.pack();
         tela.repaint();
         tela.setVisible(true);
 
@@ -62,14 +61,11 @@ public class Casa extends Product implements ActionListener{
     }
 
     private void setBool(){
- 
-lblConst = new JLabel("Há área construida no terreno?");
-boxConst = new JCheckBox();
+        lblConst = new JLabel("Há área construida no terreno?");
+        boxConst = new JCheckBox();
 
-lblTer = new JLabel("Terreno bem localizado?");
-boxTer = new JCheckBox();
-
-        
+        lblTer = new JLabel("Terreno bem localizado?");
+        boxTer = new JCheckBox();        
     }
 
     @Override
@@ -94,17 +90,25 @@ boxTer = new JCheckBox();
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == enviar){
-            name        = txtName.getText();
-        description = txtDescription.getText();
-        price       = Float.parseFloat(txtPrice.getText());
-        qtdProduto  = Integer.parseInt(txtQtd.getText());
-        //this.add(new JLabel(this.name));
-        this.largura = Integer.valueOf(txtLargura.getText());
-        this.comprimento = Integer.valueOf(txtComprimento.getText());
-        this.construido = boxConst.isSelected();
-        this.loc = boxTer.isSelected();
-        tela.dispose();
-        System.out.println(this.toString());
+
+            try{
+                name        = txtName.getText();
+                description = txtDescription.getText();
+                price       = Float.parseFloat(txtPrice.getText());
+                qtdProduto  = Integer.parseInt(txtQtd.getText());
+
+                this.largura = Integer.valueOf(txtLargura.getText());
+                this.comprimento = Integer.valueOf(txtComprimento.getText());
+                this.construido = boxConst.isSelected();
+                this.loc = boxTer.isSelected();
+                tela.dispose();
+
+                //System.out.println(this.toString());
+            }catch(NumberFormatException b){
+                JOptionPane.showMessageDialog(null,"Digite um número","Erro",JOptionPane.ERROR_MESSAGE);
+                qtdProduto  = 0;
+            }
+            
         }
     }
     

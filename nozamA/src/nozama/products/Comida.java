@@ -1,6 +1,7 @@
 package nozama.products;
 
-import nozama.Profile;
+import nozama.users.*;
+import nozama.products.states.*;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -106,11 +108,11 @@ public class Comida  extends Product implements ActionListener{
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == enviar){
-            name        = txtName.getText();
+            try{
+                 name        = txtName.getText();
         description = txtDescription.getText();
         price       = Float.parseFloat(txtPrice.getText());
         qtdProduto  = Integer.parseInt(txtQtd.getText());
-        //this.add(new JLabel(this.name));
         this.lactose = cLac.isSelected();
         this.gluten = cGl.isSelected();
         this.lata = cLat.isSelected();
@@ -118,6 +120,11 @@ public class Comida  extends Product implements ActionListener{
         this.validade = Integer.valueOf(txtdias.getText());
         tela.dispose();
         System.out.println(this.toString());
+            }catch(NumberFormatException b){
+                JOptionPane.showMessageDialog(null,"Digite um número","Erro",JOptionPane.ERROR_MESSAGE);
+                qtdProduto  = 0;
+            }
+           
         }
     }
 }

@@ -5,12 +5,16 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 
-import nozama.Profile;
+import nozama.users.*;
 import nozama.products.Product;
 
 
@@ -30,7 +34,34 @@ public class BuyPix extends Buy{
             j.dispose();
         });
         comprar.addActionListener(e -> {
-            Pay();
+            if(Pay()){
+                JDialog n = new JDialog();
+            JPanel z = new JPanel();
+            n.setLayout(new BorderLayout());
+            z.setLayout(new GridLayout(1,1));
+            JLabel lblav = new JLabel("Selecione uma nota para o produto: ");
+            JButton enviar =  new JButton("Confirmar");
+            JSlider slider = new JSlider(0,10,5);
+            slider.setPaintTicks(true);
+            slider.setMinorTickSpacing(1);
+            slider.setPaintTrack(true);
+            slider.setMajorTickSpacing(1);
+            slider.setPaintLabels(true);
+            
+            enviar.addActionListener(q -> {
+                product.setRate(slider.getValue());
+                n.dispose();
+            });
+            
+            z.add(lblav);
+            z.add(slider);
+            n.add(z,BorderLayout.CENTER);
+            n.add(enviar, BorderLayout.SOUTH);
+            n.setModal(true);
+            n.pack();
+            n.setVisible(true);
+            }
+            
             j.dispose();
         });
         panel = new JPanel();

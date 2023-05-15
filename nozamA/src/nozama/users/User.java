@@ -1,4 +1,8 @@
-package nozama;
+package nozama.users;
+
+import nozama.products.Product;
+import nozama.app.Message;
+import nozama.app.Bd;
 
 import java.util.*;
 
@@ -6,9 +10,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import nozama.products.Product;
 
-class User extends JDialog{
+import javax.swing.text.MaskFormatter;
+import java.text.ParseException;
+import java.util.regex.PatternSyntaxException;
+
+
+public abstract class User extends JDialog{
     //Arrays dos produtos que eu compro e vendo.
     private ArrayList<Product> myProduct  = new ArrayList<Product>();
     private ArrayList<Product> myCart     = new ArrayList<Product>();
@@ -34,12 +42,14 @@ class User extends JDialog{
     public JLabel     lblEmail;
     public JLabel     lblPassword;
     public JTextField txtUsername;
-    public JTextField txtAge;
+    public JFormattedTextField txtAge;
     public JTextField txtGender;
-    public JTextField txtCpf;
+    public JFormattedTextField txtCpf;
     public JTextField txtAdress;
     public JTextField txtEmail;
     private JPasswordField txtPassword;
+
+    public abstract void menu();
     
 
     //Método construtor para criar usuários, inserindo os dados iniciais.
@@ -51,7 +61,6 @@ class User extends JDialog{
         this.setTitle("Cadastro");
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        //this.setSize(200, 100);
         this.setResizable(false);
         this.setVisible(false);
         this.setModal(true);
@@ -117,8 +126,19 @@ class User extends JDialog{
                 adress = txtAdress.getText();
                 email = txtEmail.getText();
                 password = new String(txtPassword.getPassword());
-                Bd.getInstance().creatUser = true;
-                dispose();
+
+                if(!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                                +"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") || password.length()<8){
+                    JOptionPane.showMessageDialog(null, "E-mail ínvalido ou senha inferior a 8 de tamanho.\n\tTente Novamente.", "Aviso!", -1);
+
+                }else {
+                    if(validarCPF(cpf)){
+                        Bd.getInstance().creatUser = true;
+                        dispose();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "CPF inválido.\n\tTente Novamente.", "Aviso!", -1);
+                    }
+                }
             }
         });
 
@@ -193,9 +213,19 @@ class User extends JDialog{
                 age = txtAge.getText();
                 gender = txtGender.getText();
                 adress = txtAdress.getText();
+
+
                 email = txtEmail.getText();
-                Bd.getInstance().creatUser = true;
-                window.setVisible(false);
+                password = new String(txtPassword.getPassword());
+
+                if(!email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                                +"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$") || password.length()<8){
+                    JOptionPane.showMessageDialog(null, "E-mail ínvalido ou senha inferior a 8 de tamanho.\nTente Novamente.", "Aviso!", -1);
+
+                }else {
+                    Bd.getInstance().creatUser = true;
+                    window.setVisible(false);
+                }
             }
         });
 
@@ -205,7 +235,14 @@ class User extends JDialog{
         });
 
         senha.addActionListener(e -> {
-            txtPassword.setEditable(true);
+            String passwordTest = JOptionPane.showInputDialog(this, "Insira sua senha atual:", "Verificador de senha.", -1);
+
+            if(getPassword().equals(passwordTest)){
+                txtPassword.setEditable(true); 
+                JOptionPane.showMessageDialog(this, "Senha compatível campo 'Senha' liberado.", "", -1);
+            }else{
+                JOptionPane.showMessageDialog(this, "Senha imcompatível.", "Aviso!", 0);
+            }
             window.repaint();
         });
         
@@ -220,7 +257,7 @@ class User extends JDialog{
     public String toString() {
         return "User: "+this.user+"\n"+
                "Valor no banco: "+this.getValorBank()+"\n"+
-               "Categoria preferida: "+getFavorito()+"\n"+
+               "Categoria preferida: \n"+getFavorito()+"\n"+
                "Age: "+this.age+"\n"+
                "Gender: "+this.gender+"\n"+
                "CPF: "+this.cpf+"\n"+
@@ -237,8 +274,16 @@ class User extends JDialog{
 
     public void setAge()
     {
-       lblAge = new JLabel("Digite sua idade:");
-       txtAge = new JTextField();
+        MaskFormatter ageMask = null;
+        try {
+            ageMask = new MaskFormatter("##");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        lblAge = new JLabel("Digite sua idade:");
+        txtAge = new JFormattedTextField(ageMask);
+        txtAge.setColumns(2);
     }
 
     public void setGender()
@@ -249,8 +294,16 @@ class User extends JDialog{
 
     public void setCpf()
     {
+        MaskFormatter cpfMask = null;
+        try {
+            cpfMask = new MaskFormatter("###.###.###-##");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         lblCpf = new JLabel("Digite seu CPF:");
-        txtCpf = new JTextField();
+        txtCpf = new JFormattedTextField(cpfMask);
+        txtCpf.setColumns(15);
     }
 
     public void setAdress()
@@ -362,5 +415,46 @@ class User extends JDialog{
         txtAdress.setBackground(Color.lightGray);
         txtEmail.setBackground(Color.lightGray);
         txtPassword.setBackground(Color.lightGray);
+    }
+
+    private boolean validarCPF(String cpf) {
+        try{
+            cpf = cpf.replaceAll("[^0-9]", "");
+        }catch(PatternSyntaxException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Err sintaxe CPF' String", "Exception", 0);
+            return false;
+        }
+    
+        if (cpf.length() != 11) {
+            return false;
+        }
+    
+        int soma = 0;
+        int digito1, digito2;
+    
+        for (int i = 0; i < 9; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (10 - i);
+        }
+    
+        digito1 = 11 - (soma % 11);
+    
+        if (digito1 > 9) {
+            digito1 = 0;
+        }
+    
+        soma = 0;
+    
+        for (int i = 0; i < 10; i++) {
+            soma += Character.getNumericValue(cpf.charAt(i)) * (11 - i);
+        }
+    
+        digito2 = 11 - (soma % 11);
+    
+        if (digito2 > 9) {
+            digito2 = 0;
+        }
+    
+        return Character.getNumericValue(cpf.charAt(9)) == digito1 && Character.getNumericValue(cpf.charAt(10)) == digito2;
     }
 }

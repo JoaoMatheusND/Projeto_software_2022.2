@@ -1,12 +1,11 @@
-package nozama;
+package nozama.app;
 import nozama.products.Product;
+import nozama.users.*;
 
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import java.awt.Color;
 
-
-class Bd{
+public class Bd{
 
     /* Padrão Singlton pra criação de um banco de dados em tempo de execução */
 
@@ -14,8 +13,7 @@ class Bd{
 
     private Bd(){
         products   = new ArrayList<Product>();
-        users      = new ArrayList<Profile>();
-        userAdmins = new ArrayList<UserAdmin>();
+        users      = new ArrayList<User>();
     }; // Construtor privado para evitar que mais de uma instancia seja criada.
 
     public static synchronized Bd getInstance(){ // Método estático pra conseguir seracessado pelas classes e iniciar a única instância.
@@ -28,15 +26,13 @@ class Bd{
     /* Atribudos do nosso banco de dados que poderam ser ultizados nas classes */
 
     private ArrayList<Product> products;    // Todos os produtos do nozamA.
-    private ArrayList<Profile> users;       // Todos os usuários do nozamA.
-    private ArrayList<UserAdmin> userAdmins;// Todos os funcionarios do nozamA.
+    private ArrayList<User> users;       // Todos os usuários do nozamA.
 
     public boolean creatUser = false;
     public JFrame mainWindow;
     public JFrame loginWindow;
 
-    public ArrayList<Product>   getProducts()  {return this.products;}
-    public ArrayList<Profile>   getUsers()     {return this.users;}
-    public ArrayList<UserAdmin> getUserAdmin() {return this.userAdmins;}
+    public ArrayList<Product> getProducts()  {return this.products;}
+    public ArrayList<User>    getUsers()     {return this.users;}
 
 }

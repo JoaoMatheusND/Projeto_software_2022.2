@@ -1,19 +1,17 @@
 package nozama.products;
 
-import nozama.Profile;
+import nozama.users.*;
+import nozama.products.states.*;
 
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Roupas  extends Product implements ActionListener{
-
-    Scanner input = new Scanner(System.in);
 
     String size;
     String color;
@@ -71,7 +69,8 @@ public class Roupas  extends Product implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
         if(e.getSource() == enviar){
-            this.name        = txtName.getText();
+            try{
+                this.name        = txtName.getText();
             this.description = txtDescription.getText();
             this.price       = Float.parseFloat(txtPrice.getText());
             this.qtdProduto  = Integer.parseInt(txtQtd.getText());
@@ -79,6 +78,11 @@ public class Roupas  extends Product implements ActionListener{
             this.size = comboTamanho.getSelectedItem().toString();
             tela.dispose();
             System.out.println(this.toString());
+            }catch(NumberFormatException b){
+                JOptionPane.showMessageDialog(null,"Digite um número","Erro",JOptionPane.ERROR_MESSAGE);
+                qtdProduto  = 0;
+            }
+            
         }
     }
 }

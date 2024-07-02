@@ -1,5 +1,7 @@
 package nozama.app;
 import nozama.products.Product;
+import java.util.List;
+import java.util.stream.Collectors;
 import nozama.users.*;
 
 import java.util.ArrayList;
@@ -34,5 +36,9 @@ public class Bd{
 
     public ArrayList<Product> getProducts()  {return this.products;}
     public ArrayList<User>    getUsers()     {return this.users;}
+    public ArrayList<User>    getAdmin()     {
+        List<User> user = this.users.stream().filter(user -> user instanceof UserAdmin).collect(Collectors.toList());
+        return user;
+        }
 
 }
